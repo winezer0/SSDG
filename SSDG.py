@@ -122,11 +122,13 @@ def social_rule_handle_in_steps_two_list(config_dict,
         if config_dict[GB_CHINESE_TO_PINYIN]:
             # 对账号列表依赖的 基本变量字典中的列表值进行中文处理
             name_base_var_replace_dict = dict_chinese_to_dict_alphabet(string_dict=name_base_var_replace_dict,
-                                                                       options_dict=config_dict[GB_CHINESE_OPTIONS_NAME],
+                                                                       options_dict=config_dict[
+                                                                           GB_CHINESE_OPTIONS_NAME],
                                                                        store_chinese=config_dict[GB_STORE_CHINESE])
             # 对密码列表依赖的 基本变量字典中的列表值进行中文处理
             pass_base_var_replace_dict = dict_chinese_to_dict_alphabet(string_dict=pass_base_var_replace_dict,
-                                                                       options_dict=config_dict[GB_CHINESE_OPTIONS_PASS],
+                                                                       options_dict=config_dict[
+                                                                           GB_CHINESE_OPTIONS_PASS],
                                                                        store_chinese=config_dict[GB_STORE_CHINESE])
 
             output(f"[*] 中文列表处理转换完成 name_base_var_replace_dict:{len(str(name_base_var_replace_dict))}", level=LOG_INFO)
@@ -154,7 +156,8 @@ def social_rule_handle_in_steps_two_list(config_dict,
     if True:
         # 获取因变量
         dependent_var_replace_dict = set_dependent_var_dict(target_url=config_dict[GB_TARGET],
-                                                            base_dependent_dict=config_dict[GB_DEPENDENT_VAR_REPLACE_DICT],
+                                                            base_dependent_dict=config_dict[
+                                                                GB_DEPENDENT_VAR_REPLACE_DICT],
                                                             ignore_ip_format=config_dict[GB_IGNORE_IP_FORMAT],
                                                             symbol_replace_dict=config_dict[GB_SYMBOL_REPLACE_DICT],
                                                             not_allowed_symbol=config_dict[GB_NOT_ALLOW_SYMBOL])
@@ -267,7 +270,8 @@ def social_rule_handle_in_steps_two_list(config_dict,
                                                    de_unprintable=True)
         # 移除已经被爆破过得账号密码
         history_tuple_list = unfrozen_tuple_list(history_user_pass_list, config_dict[GB_CONST_LINK])
-        name_pass_pair_list = reduce_str_str_tuple_list(name_pass_pair_list, history_tuple_list, config_dict[GB_CONST_LINK])
+        name_pass_pair_list = reduce_str_str_tuple_list(name_pass_pair_list, history_tuple_list,
+                                                        config_dict[GB_CONST_LINK])
 
         # 写入当前结果
         step += 1
@@ -284,7 +288,6 @@ def social_rule_handle_in_steps_one_pairs(config_dict,
                                           ):
     mode = "pairs"
     step = 0
-
 
     # 读取用户账号文件
     name_pass_pair_list = []
@@ -466,6 +469,36 @@ def social_rule_handle_in_steps_one_pairs(config_dict,
     return name_pass_pair_list
 
 
+def actions_controller(config_dict):
+    # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
+    selected_name_files = gen_file_names(format_str=config_dict[GB_NAME_FILE_STR],
+                                         replace=config_dict[GB_RULE_LEVEL_NAME],
+                                         rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+
+    selected_pass_files = gen_file_names(format_str=config_dict[GB_PASS_FILE_STR],
+                                         replace=config_dict[GB_RULE_LEVEL_PASS],
+                                         rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+
+    selected_pair_files = gen_file_names(format_str=config_dict[GB_PAIR_FILE_STR],
+                                         replace=config_dict[GB_RULE_LEVEL_PAIR],
+                                         rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+
+    if config_dict[GB_PAIR_FILE_FLAG]:
+        user_pass_dict = social_rule_handle_in_steps_one_pairs(config_dict=config_dict,
+                                                               pair_file_names=selected_pair_files,
+                                                               default_name_list=None,
+                                                               default_pass_list=None,
+                                                               )
+    else:
+        user_pass_dict = social_rule_handle_in_steps_two_list(config_dict=config_dict,
+                                                              user_name_files=selected_name_files,
+                                                              user_pass_files=selected_pass_files,
+                                                              default_name_list=None,
+                                                              default_pass_list=None,
+                                                              )
+    output(f"[*] 最终生成账号密码对数量: {len(user_pass_dict)}", level=LOG_INFO)
+
+
 if __name__ == '__main__':
     # 加载初始设置参数
     setting_com.init_common(CONFIG)
@@ -497,30 +530,5 @@ if __name__ == '__main__':
     output(f"[*] 最终配置信息: {CONFIG}", level=LOG_INFO)
     show_config_dict(CONFIG)
 
-    # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
-    NAME_FILES = gen_file_names(format_str=CONFIG[GB_NAME_FILE_STR],
-                                replace=CONFIG[GB_RULE_LEVEL_NAME],
-                                rule_exact=CONFIG[GB_RULE_LEVEL_EXACT])
-
-    PASS_FILES = gen_file_names(format_str=CONFIG[GB_PASS_FILE_STR],
-                                replace=CONFIG[GB_RULE_LEVEL_PASS],
-                                rule_exact=CONFIG[GB_RULE_LEVEL_EXACT])
-
-    PAIR_FILES = gen_file_names(format_str=CONFIG[GB_PAIR_FILE_STR],
-                                replace=CONFIG[GB_RULE_LEVEL_PAIR],
-                                rule_exact=CONFIG[GB_RULE_LEVEL_EXACT])
-
-    if CONFIG[GB_PAIR_FILE_FLAG]:
-        user_pass_dict = social_rule_handle_in_steps_one_pairs(config_dict=CONFIG,
-                                                               pair_file_names=PAIR_FILES,
-                                                               default_name_list=None,
-                                                               default_pass_list=None,
-                                                               )
-    else:
-        user_pass_dict = social_rule_handle_in_steps_two_list(config_dict=CONFIG,
-                                                              user_name_files=NAME_FILES,
-                                                              user_pass_files=PASS_FILES,
-                                                              default_name_list=None,
-                                                              default_pass_list=None,
-                                                              )
-    output(f"[*] 最终生成账号密码对数量: {len(user_pass_dict)}", level=LOG_INFO)
+    # 进行字典伸出
+    actions_controller(CONFIG)
