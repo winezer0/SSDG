@@ -11,9 +11,7 @@ from libs.lib_filter_srting.filter_const import *
 from libs.lib_social_dict.repl_const import *
 
 
-def init_custom(config,
-
-                ):
+def init_custom(config):
     ############################################################
     # 排除历史爆破记录的功能
     config[GB_EXCLUDE_FLAG] = True
