@@ -1,0 +1,6 @@
+argparse~=1.4.0
+loguru~=0.5.2
+tldextract~=2.2.3
+exrex~=0.10.5
+pypinyin~=0.38.0
+jieba~=0.42.1

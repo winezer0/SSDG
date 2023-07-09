@@ -1,0 +1,12 @@
+gly
+guanli
+root
+admin
+administrator
+adminer
+adm
+manager
+mgr
+master
+
+

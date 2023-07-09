@@ -1,0 +1,11 @@
+对于设备的属性进行分类：
+
+类似：
+router 表示路由设备
+switch表示交换设备
+vpn 表示VPN设备
+gateway 表示网关设备
+device 表示设备
+firewall 表示防火墙设备
+audit 表示日志审计设备
+rule  表示规则审计设备

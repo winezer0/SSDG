@@ -1,0 +1,8 @@
+普通
+base
+default
+primary
+priv
+private
+public
+free

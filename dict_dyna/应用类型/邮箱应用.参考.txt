@@ -1,0 +1,5 @@
+邮箱应用的分类描述信息：
+邮箱
+mail
+mailer
+email

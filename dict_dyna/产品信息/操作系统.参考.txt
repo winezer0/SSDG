@@ -1,0 +1,8 @@
+操作系统的属性分类：
+类似：
+Windows
+Win
+Linux
+Lin
+Apple
+Macos

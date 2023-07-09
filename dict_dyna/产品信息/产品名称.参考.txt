@@ -1,0 +1,8 @@
+一般都是企业内部对于设备的命名，
+可在发现产品后，进一步搜索查找对应的信息
+
+类似
+Netscreen
+eyougw
+puppet
+ansible

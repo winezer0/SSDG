@@ -1,0 +1,10 @@
+.idea
+*idea*
+*temp*
+dict_hit
+*__pycache__*
+runtime
+runlog*
+result*
+*.pyc
+*.gen.txt

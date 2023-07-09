@@ -1,0 +1,11 @@
+s3cret
+secret
+password
+masterkey
+changeme
+default
+manager
+admin
+system
+master
+hello

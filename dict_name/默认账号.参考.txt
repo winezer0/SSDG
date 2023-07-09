@@ -1,0 +1,4 @@
+大部分应用、网站都有其默认账号。
+例如：
+mssql账号  sa
+oracle账号  oracle等
