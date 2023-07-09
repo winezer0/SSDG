@@ -22,6 +22,8 @@ from libs.lib_filter_srting.filter_string_call import format_string_list, format
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO, LOG_ERROR, LOG_DEBUG
 from libs.lib_social_dict.repl_mark_user import replace_mark_user_on_pass
 from libs.lib_social_dict.transfer_passwd import transfer_passwd
+from libs.lib_tags_exec.tags_const import TAG_FUNC_DICT
+from libs.lib_tags_exec.tags_exec import match_exec_repl_loop_batch
 from libs.utils import gen_file_names
 
 
@@ -174,6 +176,21 @@ def social_dict_by_name_pass(config_dict,
         step += 1
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.name.txt"), name_list)
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pass.txt"), pass_list)
+
+    # 调用tag exec来进行操作,实现字符串反序 实现1221等格式
+    if True:
+        name_list = match_exec_repl_loop_batch(name_list, TAG_FUNC_DICT)
+        pass_list = match_exec_repl_loop_batch(pass_list, TAG_FUNC_DICT)
+
+        # 进行格式化
+        name_list = format_string_list(string_list=name_list, options_dict=config_dict[GB_FILTER_OPTIONS_NAME])
+        pass_list = format_string_list(string_list=pass_list, options_dict=config_dict[GB_FILTER_OPTIONS_PASS])
+        output(f"[*] 列表过滤格式化完成 name_list:{len(name_list)} | pass_list:{len(pass_list)}", level=LOG_INFO)
+
+        # 写入当前结果
+        step += 1
+        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.name.txt"), name_list)
+        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pass.txt"), pass_list)
 
     # 组合用户名列表和密码列表
     if True:
@@ -355,6 +372,14 @@ def social_dict_by_pairs_file(config_dict,
             step += 1
             write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pair.txt"),
                         name_pass_pair_list)
+
+        # 调用tag exec来进行操作,实现字符串反序 实现1221等格式
+        if True:
+            name_pass_pair_list = match_exec_repl_loop_batch(name_pass_pair_list, TAG_FUNC_DICT)
+
+            # 写入当前结果
+            step += 1
+            write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pair.txt"), name_pass_pair_list)
 
     # 拆分出账号 密码对 元祖
     name_pass_pair_list = unfrozen_tuple_list(name_pass_pair_list, config_dict[GB_PAIR_LINK_SYMBOL])

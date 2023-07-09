@@ -1,2 +1,4 @@
 %默认密码%
 %%USERNAME%%
+<revs>%%USERNAME%%</revs>
+<revs>12345678</revs>
