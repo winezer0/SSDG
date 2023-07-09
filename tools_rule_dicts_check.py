@@ -2,12 +2,15 @@
 # encoding: utf-8
 import re
 
+import setting_com
+import setting_dict
+from libs.input_const import *
+from libs.lib_attribdict.config import CONFIG
 from libs.lib_dyna_rule.base_rule_parser import RuleParser
 from libs.lib_file_operate.file_path import get_dir_path_file_info_dict, file_name_remove_ext_list, \
     get_dir_path_dir_info_dict
 from libs.lib_file_operate.file_read import read_file_to_list
 from libs.lib_log_print.logger_printer import output, LOG_ERROR, set_logger, LOG_INFO
-from setting_com import *
 
 
 # 检查每一行规则，是否符合基本变量替换规则 % XXX % 的形式
@@ -103,33 +106,38 @@ def get_all_base_var(dirs):
 
 
 if __name__ == '__main__':
+    # 加载初始设置参数
+    setting_com.init_common(CONFIG)
+    setting_com.init_custom(CONFIG)
+    setting_dict.init_custom(CONFIG)
+
     # 根据用户输入的debug参数设置日志打印器属性 # 为主要是为了接受config.debug参数来配置输出颜色.
-    set_logger(GB_INFO_LOG_FILE, GB_ERR_LOG_FILE, GB_DBG_LOG_FILE, False)
+    set_logger(CONFIG[GB_LOG_INFO_FILE], CONFIG[GB_LOG_ERROR_FILE], CONFIG[GB_LOG_DEBUG_FILE], False)
 
     base_dict_ext = [".min.txt", ".max.txt", ".man.txt"]
     base_dirs = {
-        GB_BASE_VAR_DIR: base_dict_ext,
-        GB_BASE_DYNA_DIR: base_dict_ext,
-        GB_BASE_NAME_DIR: base_dict_ext,
-        GB_BASE_PASS_DIR: base_dict_ext,
+        CONFIG[GB_BASE_VAR_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_DYNA_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_NAME_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_PASS_DIR]: base_dict_ext,
     }
 
     rule_dirs = {
-        GB_RULE_DICT_DIR: [".txt"]
+        CONFIG[GB_RULE_DICT_DIR]: [".txt"]
     }
 
     # 1、获取所有基础变量
     all_base_var = get_all_base_var(base_dirs)
-    output(f"[+] 目前所有基础变量【{len(all_base_var)}】个, 详情：{all_base_var}")
+    output(f"[+] 目前所有基础变量【{len(all_base_var)}】个, 详情：{all_base_var}",level=LOG_INFO)
 
     # 扩充自定义的基本变量字典,一般为空
-    all_base_var.extend(list(GB_BASE_VAR_REPLACE_DICT.keys()))  # 自定义 基本变量
-    output(f"[+] 目前所有基本替换变量【{len(all_base_var)}】个, 详情：{all_base_var}")
+    all_base_var.extend(list(CONFIG[GB_BASE_VAR_REPLACE_DICT].keys()))  # 自定义 基本变量
+    output(f"[+] 目前所有基本替换变量【{len(all_base_var)}】个, 详情：{all_base_var}",level=LOG_INFO)
 
     # 扩充自定义的因变量字典,需要额外处理
-    all_depend_var = [GB_USER_NAME_MARK]  # 用户名替换标记变量
-    all_depend_var.extend(list(GB_DEPENDENT_VAR_REPLACE_DICT.keys()))  # 动态因变量 及 自定义因变量
-    output(f"[+] 目前所有因变量替换变量【{len(all_depend_var)}】个, 详情：{all_depend_var}")
+    all_depend_var = [CONFIG[GB_USER_NAME_MARK]]  # 用户名替换标记变量
+    all_depend_var.extend(list(CONFIG[GB_DEPENDENT_VAR_REPLACE_DICT].keys()))  # 动态因变量 及 自定义因变量
+    output(f"[+] 目前所有因变量替换变量【{len(all_depend_var)}】个, 详情：{all_depend_var}",level=LOG_INFO)
 
     # 2、检查每一行规则
     error_rules_info = check_rule_base_var_format(rule_dirs, all_base_var, all_depend_var)

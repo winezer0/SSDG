@@ -2,12 +2,14 @@
 # encoding: utf-8
 import re
 
+import setting_com
+import setting_dict
+from libs.input_const import *
+from libs.lib_attribdict.config import CONFIG
 from libs.lib_file_operate.file_coding import file_encoding
 from libs.lib_file_operate.file_read import read_file_to_list
 from libs.lib_file_operate.file_write import write_lines
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO
-from setting_com import *
-
 from libs.lib_file_operate.file_path import get_dir_path_file_info_dict, file_name_remove_ext_list
 
 
@@ -72,15 +74,20 @@ def format_base_dict(dirs):
 
 
 if __name__ == '__main__':
+    # 加载初始设置参数
+    setting_com.init_common(CONFIG)
+    setting_com.init_custom(CONFIG)
+    setting_dict.init_custom(CONFIG)
+
     # 根据用户输入的debug参数设置日志打印器属性 # 为主要是为了接受config.debug参数来配置输出颜色.
-    set_logger(GB_INFO_LOG_FILE, GB_ERR_LOG_FILE, GB_DBG_LOG_FILE, False)
+    set_logger(CONFIG[GB_LOG_INFO_FILE], CONFIG[GB_LOG_ERROR_FILE], CONFIG[GB_LOG_DEBUG_FILE], False)
 
     base_dict_ext = [".min.txt", ".max.txt", ".man.txt"]
     base_dirs = {
-        GB_BASE_VAR_DIR: base_dict_ext,
-        GB_BASE_DYNA_DIR: base_dict_ext,
-        GB_BASE_NAME_DIR: base_dict_ext,
-        GB_BASE_PASS_DIR: base_dict_ext,
+        CONFIG[GB_BASE_VAR_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_DYNA_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_NAME_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_PASS_DIR]: base_dict_ext,
     }
 
     # 格式化所有基本字典文件 小写|去重

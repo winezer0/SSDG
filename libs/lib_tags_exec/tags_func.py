@@ -8,7 +8,11 @@ import js2py
 from libs.lib_file_operate.file_path import file_is_exist
 from libs.lib_file_operate.file_read import read_file_to_str
 from libs.lib_log_print.logger_printer import output, LOG_ERROR
-from setting_com import TAG_EXEC_CUSTOM_JS_FILE, TAG_EXEC_CUSTOM_PY_FILE
+
+# 标签执行时调用的自定义js文件路径
+TAG_EXEC_CUSTOM_JS_FILE = r"libs/lib_tags_exec/demo/custom.js"
+# 标签执行时调用的自定义py文件路径
+TAG_EXEC_CUSTOM_PY_FILE = r"libs/lib_tags_exec/demo/custom.py"
 
 
 def none_encode(string=""):

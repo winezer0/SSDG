@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
-from libs.lib_file_operate.file_path import get_dir_path_info_dict, get_dir_path_dir_info_dict, \
-    file_name_remove_ext_list
+import copy
+
+import setting_com
+import setting_dict
+from libs.input_const import *
+from libs.lib_attribdict.config import CONFIG
+from libs.lib_file_operate.file_path import get_dir_path_info_dict, file_name_remove_ext_list
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_ERROR, LOG_INFO
-from setting_com import *
 
 
 # 判断是否存在重复的属性名称,不能够存在重复【文件名|目录名】的
@@ -27,7 +31,7 @@ def find_duplicates(string_list):
 
 
 # 检查基本变量是否重复
-def check_base_var_duplicates(dirs):
+def check_base_var_duplicates(config, dirs):
     """
     判断是否存在重复的属性名称,不能够存在重复【文件名|目录名】的
     如果存在目录和文件名相同也需要警告
@@ -35,10 +39,10 @@ def check_base_var_duplicates(dirs):
     :return:
     """
     name_dirs = copy.copy(dirs)
-    del name_dirs[GB_BASE_PASS_DIR]
+    del name_dirs[config[GB_BASE_PASS_DIR]]
 
     pass_dirs = copy.copy(dirs)
-    del pass_dirs[GB_BASE_NAME_DIR]
+    del pass_dirs[config[GB_BASE_NAME_DIR]]
 
     dirs_list = [name_dirs, pass_dirs]
 
@@ -70,16 +74,21 @@ def check_base_var_duplicates(dirs):
 
 
 if __name__ == '__main__':
+    # 加载初始设置参数
+    setting_com.init_common(CONFIG)
+    setting_com.init_custom(CONFIG)
+    setting_dict.init_custom(CONFIG)
+
     # 根据用户输入的debug参数设置日志打印器属性 # 为主要是为了接受config.debug参数来配置输出颜色.
-    set_logger(GB_INFO_LOG_FILE, GB_ERR_LOG_FILE, GB_DBG_LOG_FILE, False)
+    set_logger(CONFIG[GB_LOG_INFO_FILE], CONFIG[GB_LOG_ERROR_FILE], CONFIG[GB_LOG_DEBUG_FILE], False )
 
     # 检查max文件变量
     base_dict_ext = [".man.txt", ".max.txt"]
     base_dirs = {
-        GB_BASE_VAR_DIR: base_dict_ext,
-        GB_BASE_DYNA_DIR: base_dict_ext,
-        GB_BASE_NAME_DIR: base_dict_ext,
-        GB_BASE_PASS_DIR: base_dict_ext,
+        CONFIG[GB_BASE_VAR_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_DYNA_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_NAME_DIR]: base_dict_ext,
+        CONFIG[GB_BASE_PASS_DIR]: base_dict_ext,
     }
     # 检查基本变量是否重复
-    check_base_var_duplicates(base_dirs)
+    check_base_var_duplicates(CONFIG, base_dirs)
