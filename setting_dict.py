@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import copy
-import pathlib
-import time
 
 from libs.input_const import *
 from libs.lib_chinese_pinyin.chinese_const import *

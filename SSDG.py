@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import argparse
-
 import setting_com
 import setting_dict
 from libs.input_const import *
@@ -21,7 +19,7 @@ from libs.lib_file_operate.file_path import file_is_empty
 from libs.lib_file_operate.file_read import read_file_to_list
 from libs.lib_file_operate.file_write import write_lines
 from libs.lib_filter_srting.filter_string_call import format_string_list, format_tuple_list
-from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO, LOG_ERROR
+from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO, LOG_ERROR, LOG_DEBUG
 from libs.lib_social_dict.repl_mark_user import replace_mark_user_on_pass
 from libs.lib_social_dict.transfer_passwd import transfer_passwd
 from libs.lib_tags_exec.tags_const import TAG_FUNC_DICT
@@ -30,14 +28,12 @@ from libs.utils import gen_file_names
 
 
 # 分割写法 基于 用户名和密码规则生成 元组列表
-def social_rule_handle_in_steps_two_list(config_dict,
-                                         user_name_files,
-                                         user_pass_files,
-                                         default_name_list=None,
-                                         default_pass_list=None,
-                                         ):
-    print(f"user_name_files:{user_name_files}")
-    print(f"user_pass_files:{user_pass_files}")
+def social_dict_by_name_pass_files(config_dict,
+                                   user_name_files,
+                                   user_pass_files,
+                                   default_name_list=None,
+                                   default_pass_list=None,
+                                   ):
 
     mode = "files"
     step = 0
@@ -281,11 +277,11 @@ def social_rule_handle_in_steps_two_list(config_dict,
 
 
 # 分割写法 基于 用户名:密码对 规则生成 元组列表
-def social_rule_handle_in_steps_one_pairs(config_dict,
-                                          pair_file_names,
-                                          default_name_list=None,
-                                          default_pass_list=None,
-                                          ):
+def social_dict_by_pairs_files(config_dict,
+                               pair_file_names,
+                               default_name_list=None,
+                               default_pass_list=None,
+                               ):
     mode = "pairs"
     step = 0
 
@@ -484,18 +480,18 @@ def actions_controller(config_dict):
                                          rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
 
     if config_dict[GB_PAIR_FILE_FLAG]:
-        user_pass_dict = social_rule_handle_in_steps_one_pairs(config_dict=config_dict,
-                                                               pair_file_names=selected_pair_files,
-                                                               default_name_list=None,
-                                                               default_pass_list=None,
-                                                               )
+        user_pass_dict = social_dict_by_pairs_files(config_dict=config_dict,
+                                                    pair_file_names=selected_pair_files,
+                                                    default_name_list=None,
+                                                    default_pass_list=None,
+                                                    )
     else:
-        user_pass_dict = social_rule_handle_in_steps_two_list(config_dict=config_dict,
-                                                              user_name_files=selected_name_files,
-                                                              user_pass_files=selected_pass_files,
-                                                              default_name_list=None,
-                                                              default_pass_list=None,
-                                                              )
+        user_pass_dict = social_dict_by_name_pass_files(config_dict=config_dict,
+                                                        user_name_files=selected_name_files,
+                                                        user_pass_files=selected_pass_files,
+                                                        default_name_list=None,
+                                                        default_pass_list=None,
+                                                        )
     output(f"[*] 最终生成账号密码对数量: {len(user_pass_dict)}", level=LOG_INFO)
 
 
@@ -527,8 +523,8 @@ if __name__ == '__main__':
     set_logger(CONFIG[GB_LOG_INFO_FILE], CONFIG[GB_LOG_ERROR_FILE], CONFIG[GB_LOG_DEBUG_FILE], CONFIG[GB_DEBUG_FLAG])
 
     # 输出所有参数信息
-    output(f"[*] 最终配置信息: {CONFIG}", level=LOG_INFO)
-    show_config_dict(CONFIG)
+    output(f"[*] 最终配置信息: {CONFIG}", level=LOG_DEBUG)
+    # show_config_dict(CONFIG)
 
     # 进行字典伸出
     actions_controller(CONFIG)

@@ -4,7 +4,6 @@
 # 输入原始报文路径
 import time
 from pathlib import Path
-
 from libs.input_const import *
 from libs.lib_file_operate.file_path import auto_make_dir
 
