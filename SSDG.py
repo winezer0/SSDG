@@ -26,8 +26,12 @@ from setting_com import *
 
 
 # 分割写法 基于 用户名和密码规则生成 元组列表
-def social_rule_handle_in_steps_two_list(target_url, user_name_files, user_pass_files,
-                                         default_name_list=None, default_pass_list=None, exclude_file=None):
+def social_rule_handle_in_steps_two_list(target_url,
+                                         user_name_files,
+                                         user_pass_files,
+                                         default_name_list=None,
+                                         default_pass_list=None,
+                                         exclude_file=None):
     print(f"user_name_files:{user_name_files}")
     print(f"user_pass_files:{user_pass_files}")
 
@@ -257,8 +261,12 @@ def social_rule_handle_in_steps_two_list(target_url, user_name_files, user_pass_
 
 
 # 分割写法 基于 用户名:密码对 规则生成 元组列表
-def social_rule_handle_in_steps_one_pairs(target_url, pair_file_names, pair_link_symbol,
-                                          default_name_list=None, default_pass_list=None, exclude_file=None):
+def social_rule_handle_in_steps_one_pairs(target_url,
+                                          pair_file_names,
+                                          pair_link_symbol,
+                                          default_name_list=None,
+                                          default_pass_list=None,
+                                          exclude_file=None):
     mode = "mode2"
     step = 0
 

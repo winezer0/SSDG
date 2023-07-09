@@ -103,37 +103,41 @@ GB_USER_PASS_MAX_LEN = 12  # 密码最大长度（含）
 #######################
 # 对账号中依赖的中文处理方案
 GB_CHINESE_OPTIONS_NAME = {
-    PY_TEMP_SYMBOL: "_",
-    PY_LINK_SYMBOLS: [""],
-    PY_CN_NAME_MAX_LEN: 4,
+    PY_TEMP_SYMBOL: "_",   # 连接字符串,不会对其他数据有影响, 使用下划线即可
+    PY_LINK_SYMBOLS: [""],   # 用于连接拼音之间的字符串 会影响一倍的结果
 
-    PY_SY_CASE: [ATTR_LOWER],
+    # 基于中文词汇、中文姓名转拼音的处理 相关的常量
+    PY_CN_NAME_MAX_LEN: 4,  # 设置中文名字的最大长度 大于这个长度的不作为名字考虑
+    PY_CN_USE_JIEBA: True,  # 是否使用结巴分词
 
-    PY_CN_USE_JIEBA: True,
+    PY_SY_CASE: [ATTR_LOWER],  # 专业术语字典的拼音大小写处理
 
-    PY_POSITIVE: True,
-    PY_REVERSE: False,
-    PY_UNIVERS: True,
+    PY_POSITIVE: True,  # 通用的姓名处理 当解析出姓、名的时候进行
+    PY_REVERSE: False,  # 额外的姓名处理，倒序安装姓名
+    PY_UNIVERS: True,   # 通用的词汇处理 当没有解析出姓、名的时候进行
 
-    PY_XM2CH: False,
-    PY_CH2XM: False,
+    # 额外的词汇生成
+    PY_XM2CH: False,    # 把姓名也当作词汇，再作做一遍字典生成
+    PY_CH2XM: False,    # 把词汇也当做姓名处理,第一个字作为姓氏处理
 
-    PY_FT_NO_BLANK: True,
-    PY_FT_NO_DUPL: True,
-    PY_FT_MAX_LEN: GB_USER_NAME_MAX_LEN,
-    PY_IGNORE_SYMBOL: GB_IGNORE_SYMBOLS,
+    # 中文转换结果处理选项
+    PY_FT_NO_BLANK: True,    # 去空格
+    PY_FT_NO_DUPL: True,   # 去重复
+    PY_FT_MAX_LEN: GB_USER_NAME_MAX_LEN,   # 生成的拼音长度不大于这个选项
+    PY_IGNORE_SYMBOL: GB_IGNORE_SYMBOLS,   # 忽略对包含指定字符的字符串的过滤,主要是担心影响存在基本|因变量
 
-    PY_UNI_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],
 
-    PY_UNI_CASE: [ATTR_LOWER],
+    PY_UNI_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],     # 普通词汇的 基本拼接元素的生成
 
-    PY_XIN_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],
+    PY_UNI_CASE: [ATTR_LOWER],  # 对 普通词汇的 每个组合的姓名字典做大小写等处理
 
-    PY_XIN_CASE: [ATTR_LOWER],
+    PY_XIN_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],  # 姓名的姓氏的 基本拼接元素的生成
 
-    PY_MIN_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],
+    PY_XIN_CASE: [ATTR_LOWER],  # 姓名的名字的  每个组合的姓名字典做大小写等处理
 
-    PY_MIN_CASE: [ATTR_LOWER],
+    PY_MIN_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],  # 姓名的姓氏的 基本拼接元素的生成
+
+    PY_MIN_CASE: [ATTR_LOWER], # 姓名的名字的  每个组合的姓名字典做大小写等处理
 
 }
 #######################
@@ -185,22 +189,22 @@ GB_IGNORE_EMPTY = True  # 进行格式过滤时保留空值[""]
 # 排除列表 排除姓名的配置
 # GB_FILTER_OPTIONS_NAME = copy.copy(FILTER_STRING_OPTIONS)
 GB_FILTER_OPTIONS_NAME = {
-    FT_IGNORE_SYMBOLS: GB_IGNORE_SYMBOLS,
-    FT_IGNORE_EMPTY: GB_IGNORE_EMPTY,
+    FT_IGNORE_SYMBOLS: GB_IGNORE_SYMBOLS,   # 过滤操作时时忽略包含特定字符的字符串
+    FT_IGNORE_EMPTY: GB_IGNORE_EMPTY,  # 忽略空字符的处理
 
-    FT_NO_DUPLICATE: True,
-    FT_BAN_SYMBOLS_STR: [],
+    FT_NO_DUPLICATE: True,  # 去重
+    FT_BAN_SYMBOLS_STR: [],  # 不允许包含的字符 列表
 
-    FT_MIN_LEN_STR: GB_USER_NAME_MIN_LEN,
-    FT_MAX_LEN_STR: GB_USER_NAME_MAX_LEN,
+    FT_MIN_LEN_STR: GB_USER_NAME_MIN_LEN,  # 长度过滤
+    FT_MAX_LEN_STR: GB_USER_NAME_MAX_LEN,  # 长度过滤
 
-    # 排除规则 # has_digit, has_upper, has_lower, has_symbol, has_chinese
+    # 字符串中的字符字符种类过滤 排除规则 # has_digit, has_upper, has_lower, has_symbol, has_chinese
     FT_EXCLUDE_RULES_STR: [
         (0, 0, 0, 1, 0),  # 排除纯符号
         (-1, 1, -1, -1, 1),  # 排除中英文混合 有大写+中文
         (-1, -1, 1, -1, 1),  # 排除中英文混合 有小写+中文
     ],
-    # 提取规则 # has_digit, has_upper, has_lower, has_symbol, has_chinese
+    # 字符串中的字符字符种类过滤 提取规则 # has_digit, has_upper, has_lower, has_symbol, has_chinese
     FT_EXTRACT_RULES_STR: [],
     # 正则排除
     FT_EXCLUDE_REGEX_STR: [],
@@ -312,7 +316,7 @@ GB_SOCIAL_PASS_OPTIONS_DICT = {
     ],
 }
 ############################################################
-# 最后爆破时，对中文账号密码进行进行中文编码
+# 最后对中文账号密码进行进行中文编码
 GB_CHINESE_ENCODE_CODING = ["utf-8"]  # 可选 ["utf-8","gb2312","unicode_escape"]
 GB_CHINESE_CHAR_URLENCODE = True  # 对中文编码时操作、同时进行URL编码
 GB_ONLY_CHINESE_URL_ENCODE = True  # 仅对包含中文的字符串进行中文及URL编码操作
