@@ -22,21 +22,19 @@ from libs.lib_filter_srting.filter_string_call import format_string_list, format
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO, LOG_ERROR, LOG_DEBUG
 from libs.lib_social_dict.repl_mark_user import replace_mark_user_on_pass
 from libs.lib_social_dict.transfer_passwd import transfer_passwd
-from libs.lib_tags_exec.tags_const import TAG_FUNC_DICT
-from libs.lib_tags_exec.tags_exec import match_exec_repl_loop_batch
 from libs.utils import gen_file_names
 
 
 # 分割写法 基于 用户名和密码规则生成 元组列表
-def social_dict_by_name_pass_files(config_dict,
-                                   user_name_files,
-                                   user_pass_files,
-                                   default_name_list=None,
-                                   default_pass_list=None,
-                                   ):
-
-    mode = "files"
+def social_dict_by_name_pass(config_dict,
+                             user_name_files,
+                             user_pass_files,
+                             ):
+    mode = "mode1"  # 与字典文件命名相关, 不建议修改
     step = 0
+
+    default_name_list = config_dict[DEFAULT_NAME_LIST]
+    default_pass_list = config_dict[DEFAULT_PASS_LIST]
 
     # 读取账号文件
     if default_name_list:
@@ -177,21 +175,6 @@ def social_dict_by_name_pass_files(config_dict,
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.name.txt"), name_list)
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pass.txt"), pass_list)
 
-    # 调用tag exec来进行操作,实现字符串反序 实现1221等格式
-    if True:
-        name_list = match_exec_repl_loop_batch(name_list, TAG_FUNC_DICT)
-        pass_list = match_exec_repl_loop_batch(pass_list, TAG_FUNC_DICT)
-
-        # 进行格式化
-        name_list = format_string_list(string_list=name_list, options_dict=config_dict[GB_FILTER_OPTIONS_NAME])
-        pass_list = format_string_list(string_list=pass_list, options_dict=config_dict[GB_FILTER_OPTIONS_PASS])
-        output(f"[*] 列表过滤格式化完成 name_list:{len(name_list)} | pass_list:{len(pass_list)}", level=LOG_INFO)
-
-        # 写入当前结果
-        step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.name.txt"), name_list)
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pass.txt"), pass_list)
-
     # 组合用户名列表和密码列表
     if True:
         name_pass_pair_list = cartesian_product_merging(name_list, pass_list)
@@ -277,13 +260,14 @@ def social_dict_by_name_pass_files(config_dict,
 
 
 # 分割写法 基于 用户名:密码对 规则生成 元组列表
-def social_dict_by_pairs_files(config_dict,
-                               pair_file_names,
-                               default_name_list=None,
-                               default_pass_list=None,
-                               ):
-    mode = "pairs"
+def social_dict_by_pairs_file(config_dict,
+                              pair_file_names,
+                              ):
+    mode = "mode2"  # 与字典文件命名相关, 不建议修改
     step = 0
+
+    default_name_list = config_dict[DEFAULT_NAME_LIST]
+    default_pass_list = config_dict[DEFAULT_PASS_LIST]
 
     # 读取用户账号文件
     name_pass_pair_list = []
@@ -372,14 +356,6 @@ def social_dict_by_pairs_files(config_dict,
             write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pair.txt"),
                         name_pass_pair_list)
 
-        # 调用tag exec来进行操作,实现字符串反序 实现1221等格式
-        if True:
-            name_pass_pair_list = match_exec_repl_loop_batch(name_pass_pair_list, TAG_FUNC_DICT)
-
-            # 写入当前结果
-            step += 1
-            write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pair.txt"), name_pass_pair_list)
-
     # 拆分出账号 密码对 元祖
     name_pass_pair_list = unfrozen_tuple_list(name_pass_pair_list, config_dict[GB_PAIR_LINK_SYMBOL])
 
@@ -466,32 +442,29 @@ def social_dict_by_pairs_files(config_dict,
 
 
 def actions_controller(config_dict):
-    # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
-    selected_name_files = gen_file_names(format_str=config_dict[GB_NAME_FILE_STR],
-                                         replace=config_dict[GB_RULE_LEVEL_NAME],
-                                         rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
-
-    selected_pass_files = gen_file_names(format_str=config_dict[GB_PASS_FILE_STR],
-                                         replace=config_dict[GB_RULE_LEVEL_PASS],
-                                         rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
-
-    selected_pair_files = gen_file_names(format_str=config_dict[GB_PAIR_FILE_STR],
-                                         replace=config_dict[GB_RULE_LEVEL_PAIR],
-                                         rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
-
     if config_dict[GB_PAIR_FILE_FLAG]:
-        user_pass_dict = social_dict_by_pairs_files(config_dict=config_dict,
-                                                    pair_file_names=selected_pair_files,
-                                                    default_name_list=None,
-                                                    default_pass_list=None,
-                                                    )
+        # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
+        selected_pair_files = gen_file_names(format_str=config_dict[GB_PAIR_FILE_STR],
+                                             replace=config_dict[GB_RULE_LEVEL_PAIR],
+                                             rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+
+        user_pass_dict = social_dict_by_pairs_file(config_dict=config_dict,
+                                                   pair_file_names=selected_pair_files,
+                                                   )
     else:
-        user_pass_dict = social_dict_by_name_pass_files(config_dict=config_dict,
-                                                        user_name_files=selected_name_files,
-                                                        user_pass_files=selected_pass_files,
-                                                        default_name_list=None,
-                                                        default_pass_list=None,
-                                                        )
+        # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
+        selected_name_files = gen_file_names(format_str=config_dict[GB_NAME_FILE_STR],
+                                             replace=config_dict[GB_RULE_LEVEL_NAME],
+                                             rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+
+        selected_pass_files = gen_file_names(format_str=config_dict[GB_PASS_FILE_STR],
+                                             replace=config_dict[GB_RULE_LEVEL_PASS],
+                                             rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+
+        user_pass_dict = social_dict_by_name_pass(config_dict=config_dict,
+                                                  user_name_files=selected_name_files,
+                                                  user_pass_files=selected_pass_files,
+                                                  )
     output(f"[*] 最终生成账号密码对数量: {len(user_pass_dict)}", level=LOG_INFO)
 
 

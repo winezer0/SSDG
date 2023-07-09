@@ -42,15 +42,11 @@ def init_custom(config):
     config[GB_TEMP_DICT_DIR] = config[GB_RESULT_DIR].joinpath(f"dict.{config[GB_RUN_TIME]}")
     auto_make_dir(config[GB_TEMP_DICT_DIR])
     ##################################################################
-    # 增加标签处理功能,便于对标记的数据自动进行（加密|编码）操作
-    # 目前支持功能请查看 libs/lib_tags_exec/tags_const.py 的 TAG_FUNC_DICT
-    # 标签执行时调用的自定义js文件路径
-    config[TAG_EXEC_CUSTOM_JS_FILE] = r"libs/lib_tags_exec/demo/custom.js"
-    # 标签执行时调用的自定义py文件路径
-    config[AG_EXEC_CUSTOM_PY_FILE] = r"libs/lib_tags_exec/demo/custom.py"
-    ##################################################################
     # 最后对中文账号密码进行进行中文编码
     config[GB_CHINESE_ENCODE_CODING] = ["utf-8"]  # 可选 ["utf-8","gb2312","unicode_escape"]
     config[GB_CHINESE_CHAR_URLENCODE] = True  # 对中文编码时操作、同时进行URL编码
     config[GB_ONLY_CHINESE_URL_ENCODE] = True  # 仅对包含中文的字符串进行中文及URL编码操作
-    ############################################################
+    ###########################################################
+    config[DEFAULT_NAME_LIST] = []  # 默认用户名字典,填写后将不会读取姓名字典
+    config[DEFAULT_PASS_LIST] = []  # 默认密码字典,填写后将不会读取密码字典
+    ###########################################################

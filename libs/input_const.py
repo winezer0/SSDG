@@ -17,9 +17,8 @@ GB_TEMP_DICT_DIR = ""
 # 自定义输入参数相关
 GB_TARGET = "" # 指定获取域名因变量的域名
 ######################################################
-# 增加标签处理功能,便于对标记的数据自动进行（加密|编码）操作
-TAG_EXEC_CUSTOM_JS_FILE = ""
-AG_EXEC_CUSTOM_PY_FILE = ""
+DEFAULT_NAME_LIST = ""
+DEFAULT_PASS_LIST = ""
 ######################################################
 # 最后对中文账号密码进行进行中文编码
 GB_CHINESE_ENCODE_CODING = ""

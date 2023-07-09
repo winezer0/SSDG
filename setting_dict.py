@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import copy
-
 from libs.input_const import *
 from libs.lib_chinese_pinyin.chinese_const import *
 from libs.lib_dyna_rule.dyna_rule_const import *
@@ -72,12 +71,21 @@ def init_custom(config):
     config[GB_PAIR_FILE_FLAG] = False
     # 使用账号:密码对文件进行爆破时,是否进行基本变量替换
     config[GB_USE_PAIR_BASE_REPL] = False
-   ############################################################
+    ############################################################
+    # 进行更细节的配置
+    chinese_config(config)  # 中文转拼音处理
+    exclude_config(config)  # 提取排除处理
+    replace_config(config)  # 密码中的用户名替换处理
+
+
+def chinese_config(config):
+    ############################################################
     # 用户名中的中文转拼音处理
     config[GB_CHINESE_TO_PINYIN] = True  # 开启中文转拼音的操作
     config[GB_STORE_CHINESE] = True  # 保留原始的中文字符串 便于中文用户名的爆破
     # GB_IGNORE_SYMBOLS = ["%%", "%", "}$"] # }$规则解析应该已经被处理|%基本变量应该已经被处理
-    config[GB_IGNORE_SYMBOLS] = ["%%", "</"]  # %% 表明字符串还需要因变量替换、 </表明还需要tag_exec处理
+    config[GB_IGNORE_SYMBOLS] = ["%%", "</"]
+    # %% 表明字符串还需要因变量替换、 </表明还需要tag_exec处理
     ###################
     # 中文转拼音处理时，通过长度对最后的（账号:密码）进行过滤的依据
     config[GB_USER_NAME_MIN_LEN] = 0  # 用户名最小长度（含）
@@ -173,6 +181,9 @@ def init_custom(config):
     config[GB_CHINESE_OPTIONS_TUPLE] = copy.copy(config[GB_CHINESE_OPTIONS_NAME])
     config[GB_CHINESE_OPTIONS_TUPLE][PY_FT_MAX_LEN] = config[GB_USER_NAME_MAX_LEN] * 2
     ############################################################
+
+
+def exclude_config(config):
     # 对生成的账号|密码列表进行排除的选项配置
     config[GB_IGNORE_EMPTY] = True  # 进行格式过滤时保留空值[""]
     # 排除列表 排除姓名的配置
@@ -271,6 +282,9 @@ def init_custom(config):
         FT_EXTRACT_REGEX_PASS: [],
     }
     ############################################################
+
+
+def replace_config(config):
     # 对密码中的用户名替换时候的一些选项
     # config_dict[GB_SOCIAL_USER_OPTIONS_DICT] = copy.copy(SOCIAL_USER_OPTIONS_DICT)
     config[GB_SOCIAL_USER_OPTIONS_DICT] = {
