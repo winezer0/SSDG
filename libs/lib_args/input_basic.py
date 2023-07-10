@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
+# 解析输入参数
+
+import argparse
 from libs.lib_log_print.logger_printer import output, LOG_ERROR, LOG_INFO
 
 
@@ -40,7 +43,27 @@ def config_dict_add_args(config_dict, args):
 
 
 def show_config_dict(config_dict):
-    # 输出 config_dict 字典
+    # 输出 config 字典
     for index, param_name in enumerate(config_dict.keys()):
         param_val = config_dict[param_name]
         output(f"[*] Param_{index} {param_name} <--> {param_val}", level=LOG_INFO)
+
+
+class StoreReverse(argparse.Action):
+    """
+    基于默认值自动取反的动作, 如默认True,则返回false
+    """
+
+    def __init__(self, option_strings, dest, default=False, required=False, help=None):
+        super(StoreReverse, self).__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=0,
+            const=True,
+            default=default,
+            required=required,
+            help=help
+        )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, not self.default)
