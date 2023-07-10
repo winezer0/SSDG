@@ -4,14 +4,14 @@
 import setting_com
 import setting_dict
 from libs.input_const import *
-from libs.input_parse import args_parser, args_dict_handle, config_dict_add_args, config_dict_handle, show_config_dict
+from libs.input_parse import args_parser, args_dict_handle, config_dict_add_args, config_dict_handle
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_chinese_encode.chinese_encode import tuple_list_chinese_encode_by_char
 from libs.lib_chinese_pinyin.chinese_list_to_alphabet_list import dict_chinese_to_dict_alphabet
+from libs.lib_collect_opera.collect_operation import cartesian_product_merging, unfrozen_tuple_list, \
+    freeze_list_subtract, frozen_tuple_list
 from libs.lib_dyna_rule.base_key_replace import replace_list_has_key_str, remove_not_used_key
 from libs.lib_dyna_rule.base_rule_parser import base_rule_render_list
-from libs.lib_dyna_rule.dyna_rule_tools import cartesian_product_merging, unfrozen_tuple_list, reduce_str_str_tuple_list
-from libs.lib_dyna_rule.dyna_rule_tools import frozen_tuple_list
 from libs.lib_dyna_rule.set_basic_var import set_base_var_dict
 from libs.lib_dyna_rule.set_depend_var import set_dependent_var_dict
 from libs.lib_file_operate.file_coding import file_encoding
@@ -266,8 +266,8 @@ def social_dict_by_name_pass(config_dict,
                                                    de_unprintable=True)
         # 移除已经被爆破过得账号密码
         history_tuple_list = unfrozen_tuple_list(history_user_pass_list, config_dict[GB_CONST_LINK])
-        name_pass_pair_list = reduce_str_str_tuple_list(name_pass_pair_list, history_tuple_list,
-                                                        config_dict[GB_CONST_LINK])
+        name_pass_pair_list = freeze_list_subtract(name_pass_pair_list, history_tuple_list,
+                                                   config_dict[GB_CONST_LINK])
 
         # 写入当前结果
         step += 1
@@ -456,8 +456,8 @@ def social_dict_by_pairs_file(config_dict,
                                                    de_unprintable=True)
         # 移除已经被爆破过得账号密码
         history_tuple_list = unfrozen_tuple_list(history_user_pass_list, config_dict[GB_CONST_LINK])
-        name_pass_pair_list = reduce_str_str_tuple_list(name_pass_pair_list, history_tuple_list,
-                                                        config_dict[GB_CONST_LINK])
+        name_pass_pair_list = freeze_list_subtract(name_pass_pair_list, history_tuple_list,
+                                                   config_dict[GB_CONST_LINK])
 
         # 写入当前结果
         step += 1

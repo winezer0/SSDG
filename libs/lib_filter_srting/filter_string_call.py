@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from libs.lib_dyna_rule.dyna_rule_tools import de_duplicate_tuple_list
+from libs.lib_collect_opera.collect_operation import de_duplicate_tuple_list
 from libs.lib_filter_srting.filter_const import *
 from libs.lib_filter_srting.filter_string_rule import *
 
