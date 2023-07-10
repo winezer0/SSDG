@@ -3,8 +3,9 @@
 
 import setting_com
 import setting_dict
-from libs.input_const import *
-from libs.input_parse import args_parser, args_dict_handle, config_dict_add_args, config_dict_handle
+from libs.lib_args.input_const import *
+from libs.lib_args.input_parse import args_parser, args_dict_handle, config_dict_handle
+from libs.lib_args.input_basic import config_dict_add_args
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_chinese_encode.chinese_encode import tuple_list_chinese_encode_by_char
 from libs.lib_chinese_pinyin.chinese_list_to_alphabet_list import dict_chinese_to_dict_alphabet

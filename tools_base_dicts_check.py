@@ -4,7 +4,7 @@ import copy
 
 import setting_com
 import setting_dict
-from libs.input_const import *
+from libs.lib_args.input_const import *
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_file_operate.file_path import get_dir_path_info_dict, file_name_remove_ext_list
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_ERROR, LOG_INFO

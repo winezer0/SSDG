@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import copy
-from libs.input_const import *
+from libs.lib_args.input_const import *
 from libs.lib_chinese_pinyin.chinese_const import *
 from libs.lib_dyna_rule.dyna_rule_const import *
 from libs.lib_filter_srting.filter_const import *
