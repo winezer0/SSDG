@@ -104,18 +104,18 @@ def cartesian_product_merging(name_list, pass_list):
     return cartesian_product_list
 
 
-def freeze_list_subtract(str_str_tuple_list, history_tuple_list, str_link_symbol):
+def freeze_list_subtract(reduced_tuples, reduce_tuples, link_symbol):
     """
     冻结 元组 解冻并相减 （去除已经爆破过的元素 ）
-    :param str_str_tuple_list:
-    :param history_tuple_list:
-    :param str_link_symbol:
+    :param reduced_tuples:
+    :param reduce_tuples:
+    :param link_symbol:
     :return:
     """
-    if str_str_tuple_list and history_tuple_list:
+    if reduced_tuples and reduce_tuples:
         # 去重 user_name_pass_pair_list 中 被  history_user_pass_tuple_list包含的元素
-        history_tuple_list = frozen_tuple_list(history_tuple_list, link_symbol=str_link_symbol)
-        str_str_tuple_list = frozen_tuple_list(str_str_tuple_list, link_symbol=str_link_symbol)
-        str_str_tuple_list = list(set(str_str_tuple_list) - set(history_tuple_list))
-        str_str_tuple_list = unfrozen_tuple_list(str_str_tuple_list, link_symbol=str_link_symbol)
-    return str_str_tuple_list
+        reduce_tuples = frozen_tuple_list(reduce_tuples, link_symbol=link_symbol)
+        reduced_tuples = frozen_tuple_list(reduced_tuples, link_symbol=link_symbol)
+        reduced_tuples = list(set(reduced_tuples) - set(reduce_tuples))
+        reduced_tuples = unfrozen_tuple_list(reduced_tuples, link_symbol=link_symbol)
+    return reduced_tuples
