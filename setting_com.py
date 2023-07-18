@@ -22,7 +22,7 @@ def init_common(config):
     config[GB_RUN_TIME] = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
     ##################################################################
     # 版本号配置
-    config[GB_VERSION] = "Ver 0.4.1 2023-07-11 08:00"
+    config[GB_VERSION] = "Ver 0.4.2 2023-07-18 20:30"
     ##################################################################
     # 是否显示DEBUG级别信息,默认False
     config[GB_DEBUG_FLAG] = False
@@ -47,5 +47,6 @@ def init_custom(config):
     config[GB_CHINESE_CHAR_URLENCODE] = True  # 对中文编码时操作、同时进行URL编码
     config[GB_ONLY_CHINESE_URL_ENCODE] = True  # 仅对包含中文的字符串进行中文及URL编码操作
     ###########################################################
+    config[GB_DEFAULT_NAME_LIST] = []  # 默认用户名字典,填写后将不会读取姓名字典
     config[GB_DEFAULT_PASS_LIST] = []  # 默认密码字典,填写后将不会读取密码字典
     ###########################################################
