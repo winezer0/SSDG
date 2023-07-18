@@ -36,8 +36,8 @@ def social_dict_by_name_pass(config_dict,
     mode = "mode1"  # 与字典文件命名相关, 不建议修改
     step = 0
 
-    default_name_list = config_dict[DEFAULT_NAME_LIST]
-    default_pass_list = config_dict[DEFAULT_PASS_LIST]
+    default_name_list = config_dict[GB_DEFAULT_NAME_LIST]
+    default_pass_list = config_dict[GB_DEFAULT_PASS_LIST]
 
     # 读取账号文件
     if default_name_list:
@@ -284,8 +284,8 @@ def social_dict_by_pairs_file(config_dict,
     mode = "mode2"  # 与字典文件命名相关, 不建议修改
     step = 0
 
-    default_name_list = config_dict[DEFAULT_NAME_LIST]
-    default_pass_list = config_dict[DEFAULT_PASS_LIST]
+    default_name_list = config_dict[GB_DEFAULT_NAME_LIST]
+    default_pass_list = config_dict[GB_DEFAULT_PASS_LIST]
 
     # 读取用户账号文件
     name_pass_pair_list = []

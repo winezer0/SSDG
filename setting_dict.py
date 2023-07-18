@@ -162,7 +162,8 @@ def chinese_config(config):
 
         PY_UNI_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],
 
-        PY_UNI_CASE: [ATTR_LOWER, ATTR_UPPER, ATTR_TITLE, ATTR_CAPER],
+        PY_UNI_CASE: [ATTR_LOWER],
+        # PY_UNI_CASE: [ATTR_LOWER, ATTR_UPPER, ATTR_TITLE, ATTR_CAPER],
 
         PY_XIN_STYLES: [STYLE_NORMAL, STYLE_FIRST, STYLE_INITIALS],
 
@@ -310,12 +311,14 @@ def replace_config(config):
             # {1: "upper"},
             # {0: "upper", 1: ATTR_UPPER},
             # {0: "upper", 2: ATTR_UPPER},
-            {0: ATTR_UPPER, "*": ATTR_LOWER},
-            {0: ATTR_LOWER, "*": ATTR_UPPER},
+            # {0: ATTR_UPPER, "*": ATTR_LOWER},
+            # {0: ATTR_LOWER, "*": ATTR_UPPER},
         ],
         SO_PASS_INDEXED: [  # 密码字母按字母索引大小写
             # {1:ATTR_UPPER,"*":ATTR_LOWER},
             {0: "upper", "*": "lower"},
+            # {0: "upper", 1: "upper", "*": "lower"},
+            # {0: "upper", 1: "upper"},
             # {0: "upper", "*": "lower"},
             # {-1: ATTR_UPPER, "*": "u"},
         ],

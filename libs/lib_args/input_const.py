@@ -18,10 +18,10 @@ GB_RESULT_DIR = ""
 GB_TEMP_DICT_DIR = ""
 ######################################################
 # 自定义输入参数相关
-GB_TARGET = "" # 指定获取域名因变量的域名
+GB_TARGET = ""  # 指定获取域名因变量的域名
 ######################################################
-DEFAULT_NAME_LIST = ""
-DEFAULT_PASS_LIST = ""
+GB_DEFAULT_NAME_LIST = ""
+GB_DEFAULT_PASS_LIST = ""
 ######################################################
 # 最后对中文账号密码进行进行中文编码
 GB_CHINESE_ENCODE_CODING = ""
@@ -67,32 +67,32 @@ GB_PAIR_FILE_FLAG = None
 # 使用账号:密码对文件进行时,是否进行基本变量替换
 GB_USE_PAIR_BASE_REPL = None
 # 用户名中的中文转拼音处理
-GB_CHINESE_TO_PINYIN = None # 开启中文转拼音的操作
-GB_STORE_CHINESE = None # 保留原始的中文字符串
+GB_CHINESE_TO_PINYIN = None  # 开启中文转拼音的操作
+GB_STORE_CHINESE = None  # 保留原始的中文字符串
 GB_IGNORE_SYMBOLS = None  # 忽略包含符号的字符串
 # 中文转拼音处理时，通过长度对最后的（账号:密码）进行过滤的依据
 GB_USER_NAME_MIN_LEN = None  # 用户名最小长度（含）
-GB_USER_NAME_MAX_LEN = None # 用户名最大长度（含）
-GB_USER_PASS_MIN_LEN = None # 密码最小长度（含）
+GB_USER_NAME_MAX_LEN = None  # 用户名最大长度（含）
+GB_USER_PASS_MIN_LEN = None  # 密码最小长度（含）
 GB_USER_PASS_MAX_LEN = None  # 密码最大长度（含）
 
 # 中文处理方案
-GB_CHINESE_OPTIONS_NAME = "" # 对账号中依赖的中文处理方案
-GB_CHINESE_OPTIONS_PASS = "" # 对密码中依赖的中文处理方案
-GB_CHINESE_OPTIONS_TUPLE = "" # 对元组列表处理时的配置字典
+GB_CHINESE_OPTIONS_NAME = ""  # 对账号中依赖的中文处理方案
+GB_CHINESE_OPTIONS_PASS = ""  # 对密码中依赖的中文处理方案
+GB_CHINESE_OPTIONS_TUPLE = ""  # 对元组列表处理时的配置字典
 
 # 对生成的账号|密码列表进行排除的选项配置
 GB_IGNORE_EMPTY = ""  # 进行格式过滤时保留空值[""]
 
 GB_FILTER_OPTIONS_NAME = ""  # 排除列表 排除姓名的配置
 GB_FILTER_OPTIONS_PASS = ""  # 排除列表 排除密码的配置
-GB_FILTER_TUPLE_OPTIONS= ""  # 排除列表 排除元组
+GB_FILTER_TUPLE_OPTIONS = ""  # 排除列表 排除元组
 
-GB_SOCIAL_USER_OPTIONS_DICT= ""  # 对密码中的用户名替换时候的一些选项
-GB_SOCIAL_PASS_OPTIONS_DICT= ""  # 对密码中进行过滤的一些选项
+GB_SOCIAL_USER_OPTIONS_DICT = ""  # 对密码中的用户名替换时候的一些选项
+GB_SOCIAL_PASS_OPTIONS_DICT = ""  # 对密码中进行过滤的一些选项
+
 
 ############################################################
-
 
 
 # 实现自动更新全局变量名和对应值

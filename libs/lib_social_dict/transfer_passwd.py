@@ -55,18 +55,16 @@ def handle_alpha_by_seg(base_pass, action_dict_list):
     # 仅获取其中字母元素,用于按字母段定位
     raw_split = re.split(r'([a-zA-Z]+)', base_pass)
     raw_split = [s for s in raw_split if s != '']  # 去除空字符串
-
     raw_split = split_keyboard_string(raw_split)
-
     raw_alphas = [item for item in raw_split if bool(re.match(r'^[a-zA-Z]+$', item))]  # 不能用 isalpha()
     if raw_alphas:
         for action_dict in action_dict_list:
             # 还原简写规则
             action_dict = repair_shorthand_action_dict(action_dict)
+            # 复制原始元素
+            copy_split = copy.copy(raw_split)
             # 判断规则动作是否合法
             if is_allowed_action_dict(action_dict):
-                # 保留原始元素
-                copy_split = copy.copy(raw_split)
                 # 当存在*的情况要求将所有元素先进行小写处理
                 if "*" in list(action_dict.keys()):
                     action = action_dict["*"]
@@ -116,6 +114,7 @@ def split_keyboard_string(raw_split):
 # 对字符串进行指定索引的字母大小写处理
 def handle_alpha_by_index(base_pass, action_dict_list):
     str_list = []
+
     # 仅处理存在英文的情况
     if not re.search(r'[a-zA-Z]', base_pass):
         return str_list
@@ -123,20 +122,20 @@ def handle_alpha_by_index(base_pass, action_dict_list):
     for action_dict in action_dict_list:
         # 还原简写规则
         action_dict = repair_shorthand_action_dict(action_dict)
+        # 复制原始元素
+        copy_pass = copy.copy(base_pass)
         # 判断规则动作是否合法
         if is_allowed_action_dict(action_dict):
-            # 保留原始元素
-            copy_pass = copy.copy(base_pass)
             # 当存在*的情况要求将所有元素先进行小写处理
             if "*" in list(action_dict.keys()):
                 action = action_dict["*"]
                 copy_pass = getattr(copy_pass, action)()
+
+            copy_pass = list(copy_pass)
             for seg, action in action_dict.items():
                 if isinstance(seg, int) and seg < len(copy_pass):
-                    copy_split = list(copy_pass)
                     # getattr 函数可以根据传入的对象和属性名获取属性值，而字符串的内置方法 upper 可以将字符串转换为大写。
-                    copy_split[seg] = getattr(copy_split[seg], action)()
-                    str_list.append("".join(copy_split))
+                    copy_pass[seg] = getattr(copy_pass[seg], action)()
             str_list.append("".join(copy_pass))
     return str_list
 
