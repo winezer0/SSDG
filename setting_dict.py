@@ -59,9 +59,9 @@ def init_custom(config):
     config[GB_PAIR_FILE_STR] = config[GB_RULE_DICT_DIR].joinpath("level{LEVEL}.mode2_pairs.txt").as_posix()
     ###################
     # 实际调用的字典级别设置
-    config[GB_RULE_LEVEL_NAME] = 1  # 调用 level1.mode1_name.txt
-    config[GB_RULE_LEVEL_PASS] = 1  # 调用 level1.mode1_pass.txt
-    config[GB_RULE_LEVEL_PAIR] = 1  # 调用 level1.mode2_pairs.txt
+    config[GB_RULE_LEVEL_NAME] = 10  # 调用 level1.mode1_name.txt
+    config[GB_RULE_LEVEL_PASS] = 10  # 调用 level1.mode1_pass.txt
+    config[GB_RULE_LEVEL_PAIR] = 10  # 调用 level1.mode2_pairs.txt
     config[GB_RULE_LEVEL_EXACT] = True  # 是否仅调用精确的字典级别,不调用更下级的字典
     ###################
     # 直接输入账号密码对文件
@@ -310,10 +310,12 @@ def replace_config(config):
             # {1: "upper"},
             # {0: "upper", 1: ATTR_UPPER},
             # {0: "upper", 2: ATTR_UPPER},
-            # {0: ATTR_UPPER, "*": ATTR_LOWER},
+            {0: ATTR_UPPER, "*": ATTR_LOWER},
+            {0: ATTR_LOWER, "*": ATTR_UPPER},
         ],
         SO_PASS_INDEXED: [  # 密码字母按字母索引大小写
             # {1:ATTR_UPPER,"*":ATTR_LOWER},
+            {0: "upper", "*": "lower"},
             # {0: "upper", "*": "lower"},
             # {-1: ATTR_UPPER, "*": "u"},
         ],

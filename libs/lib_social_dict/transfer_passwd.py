@@ -24,7 +24,7 @@ def replace_symbol_by_dict(raw_string, action_dict_list):
 # 对动作简写进行还原 # U -> upper | L -> lower | C -> cap | T ->title
 def repair_shorthand_action_dict(action_dict):
     # 对动作简写进行还原 # U -> upper | L -> lower | C -> cap | T ->title
-    long_actions = [ATTR_UPPER, ATTR_LOWER, ATTR_TITLE, ATTR_CAPER],
+    long_actions = [ATTR_UPPER, ATTR_LOWER, ATTR_TITLE, ATTR_CAPER]
     for seg, short_action in action_dict.items():
         for long_action in long_actions:
             if long_action.startswith(str(short_action).lower()):
@@ -36,7 +36,7 @@ def repair_shorthand_action_dict(action_dict):
 def is_allowed_action_dict(action_dict):
     # 检查规则的动作是否正确
     status = True
-    allow_actions = [ATTR_UPPER, ATTR_LOWER, ATTR_TITLE, ATTR_CAPER],
+    allow_actions = [ATTR_UPPER, ATTR_LOWER, ATTR_TITLE, ATTR_CAPER]
     for action in list(action_dict.values()):
         if action not in allow_actions:
             output(f"[!] 动作错误 {action_dict} <--> {action} not in {allow_actions}", level=LOG_ERROR)
