@@ -34,8 +34,8 @@ def init_custom(config):
     # 存储 自定义 因变量
     config[GB_DEPENDENT_VAR_REPLACE_DICT] = {
         STR_VAR_DEPENDENT: [],  # 存储自定义因变量
-        # STR_VAR_DOMAIN: [],  # 存储动态PATH因变量-无需处理
-        # STR_VAR_PATH: [],  # 存储动态域名因变量-无需处理
+        STR_VAR_DOMAIN: [],  # 存储动态PATH因变量-无需处理
+        STR_VAR_PATH: [],  # 存储动态域名因变量-无需处理
         STR_VAR_BLANK: [''],
     }
 

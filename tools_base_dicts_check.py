@@ -69,7 +69,7 @@ def check_base_var_duplicates(config, dirs):
             for duplicates_file in duplicates_file_list:
                 for file_path, file_name in all_path_dict.items():
                     if duplicates_file.strip("%") in str(file_name):
-                        output(f"[-] 重复基本变量 [{duplicates_file}] 位于 {file_name}", level=LOG_ERROR)
+                        output(f"[-] 重复基本变量 [{duplicates_file}] 位于 {file_path}", level=LOG_ERROR)
         else:
             output(f"[*] 未发现 重复基本变量...{list(temp_dirs.keys())}", level=LOG_INFO)
 

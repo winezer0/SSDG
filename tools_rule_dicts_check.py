@@ -44,8 +44,6 @@ def check_rule_base_var_format(dirs, base_vars, depend_vars):
     """
     检查 rule文件夹下的每一行规则，是否符合基本变量替换规则 %XXX%的形式
     符合的话，看其在不在当前基本字典内,不在的话提出警告
-    :param dirs:
-    :return:
     """
     error_rules_dict = {}
 
@@ -73,7 +71,7 @@ def check_rule_base_var_format(dirs, base_vars, depend_vars):
                     # 判断该变量是否存在于因变量中
                     if diff_set:
                         for var in list(diff_set):
-                            if var not in str(depend_vars):
+                            if f"%{var}%" not in str(depend_vars):
                                 output(f"[!] 警告: 字典文件【{file_path}】 字典规则【{rule}】 发现非预期变量【{diff_set}】", level=LOG_ERROR)
                                 error_rules_dict[f"{file_path}<-->{rule}"] = f"非预期变量 {diff_set}"
                 # 进行规则解析测试

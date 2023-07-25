@@ -71,7 +71,7 @@ def format_base_dict(dirs):
                     write_lines(file_path, new_content_list, encoding="utf-8", new_line=True, mode="w+")
                     output(f"[+] 成功格式化: {file_path}", level=LOG_INFO)
                 else:
-                    output(f"[*] 跳过格式化: {file_path}", level=LOG_INFO)
+                    output(f"[*] 无需格式化: {file_path}", level=LOG_INFO)
 
 
 if __name__ == '__main__':
