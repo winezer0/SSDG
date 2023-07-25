@@ -5,7 +5,7 @@ import inspect
 import urllib.parse
 import js2py
 
-from libs.lib_file_operate.file_path import file_is_exist
+from libs.lib_file_operate.file_utils import file_is_exist
 from libs.lib_file_operate.file_read import read_file_to_str
 from libs.lib_log_print.logger_printer import output, LOG_ERROR
 

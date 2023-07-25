@@ -16,7 +16,7 @@ from libs.lib_dyna_rule.base_rule_parser import base_rule_render_list
 from libs.lib_dyna_rule.set_basic_var import set_base_var_dict
 from libs.lib_dyna_rule.set_depend_var import set_dependent_var_dict
 from libs.lib_file_operate.file_coding import file_encoding
-from libs.lib_file_operate.file_path import file_is_empty
+from libs.lib_file_operate.file_utils import file_is_empty
 from libs.lib_file_operate.file_read import read_file_to_list
 from libs.lib_file_operate.file_write import write_lines
 from libs.lib_filter_srting.filter_string_call import format_string_list, format_tuple_list
@@ -29,10 +29,7 @@ from libs.utils import gen_file_names
 
 
 # 分割写法 基于 用户名和密码规则生成 元组列表
-def social_dict_by_name_pass(config_dict,
-                             user_name_files,
-                             user_pass_files,
-                             ):
+def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
     mode = "mode1"  # 与字典文件命名相关, 不建议修改
     step = 0
 
@@ -278,9 +275,7 @@ def social_dict_by_name_pass(config_dict,
 
 
 # 分割写法 基于 用户名:密码对 规则生成 元组列表
-def social_dict_by_pairs_file(config_dict,
-                              pair_file_names,
-                              ):
+def social_dict_by_pairs_file(config_dict, pair_file_names):
     mode = "mode2"  # 与字典文件命名相关, 不建议修改
     step = 0
 
@@ -468,7 +463,7 @@ def social_dict_by_pairs_file(config_dict,
 
 
 def actions_controller(config_dict):
-    if config_dict[GB_PAIR_FILE_FLAG]:
+    if config_dict[GB_USE_PAIR_FILE]:
         # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
         selected_pair_files = gen_file_names(format_str=config_dict[GB_PAIR_FILE_STR],
                                              replace=config_dict[GB_RULE_LEVEL_PAIR],

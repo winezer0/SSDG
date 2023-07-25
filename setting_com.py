@@ -5,7 +5,7 @@
 import time
 from pathlib import Path
 from libs.lib_args.input_const import *
-from libs.lib_file_operate.file_path import auto_make_dir
+from libs.lib_file_operate.file_utils import auto_make_dir
 
 
 def init_common(config):
@@ -22,7 +22,7 @@ def init_common(config):
     config[GB_RUN_TIME] = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
     ##################################################################
     # 版本号配置
-    config[GB_VERSION] = "Ver 0.4.2 2023-07-18 20:30"
+    config[GB_VERSION] = "Ver 0.4.3 2023-07-25 18:30"
     ##################################################################
     # 是否显示DEBUG级别信息,默认False
     config[GB_DEBUG_FLAG] = False

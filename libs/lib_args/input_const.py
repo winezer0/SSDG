@@ -63,7 +63,7 @@ GB_RULE_LEVEL_EXACT = None
 # 账号密码对文件 连接符号
 GB_PAIR_LINK_SYMBOL = None
 # 使用账号:密码对文件进行爆破
-GB_PAIR_FILE_FLAG = None
+GB_USE_PAIR_FILE = None
 # 使用账号:密码对文件进行时,是否进行基本变量替换
 GB_USE_PAIR_BASE_REPL = None
 # 用户名中的中文转拼音处理

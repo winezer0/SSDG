@@ -32,7 +32,7 @@ def args_parser(config_dict):
 
         {"param": GB_RULE_LEVEL_EXACT, "action": "store_false", "help": "Specifies Exact call level dictionary"},
 
-        {"param": GB_PAIR_FILE_FLAG, "action": "store_false", "help": "Specifies Use Piar File"},
+        {"param": GB_USE_PAIR_FILE, "action": "store_false", "help": "Specifies Use Piar File"},
         {"param": GB_PAIR_LINK_SYMBOL, "help": "Specifies Name Pass Link Symbol in history file"},
 
         {"param": GB_EXCLUDE_FLAG, "action": "store_true", "help": "Specifies exclude history file flag"},

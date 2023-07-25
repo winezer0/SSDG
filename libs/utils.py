@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from libs.lib_file_operate.file_path import file_is_exist
+from libs.lib_file_operate.file_utils import file_is_exist
 from libs.lib_log_print.logger_printer import output, LOG_ERROR
 
 

@@ -68,7 +68,7 @@ def init_custom(config):
     # 账号密码对文件 连接符号
     config[GB_PAIR_LINK_SYMBOL] = ':'
     # 使用账号:密码对文件进行爆破，默认使用账号字典、密码字典
-    config[GB_PAIR_FILE_FLAG] = False
+    config[GB_USE_PAIR_FILE] = False
     # 使用账号:密码对文件进行爆破时,是否进行基本变量替换
     config[GB_USE_PAIR_BASE_REPL] = False
     ############################################################
