@@ -6,7 +6,8 @@ import setting_com
 import setting_dict
 from libs.lib_args.input_const import *
 from libs.lib_attribdict.config import CONFIG
-from libs.lib_file_operate.file_path import get_dir_path_info_dict, file_name_remove_ext_list
+from libs.lib_file_operate.file_path import get_dirs_path_info_dict
+from libs.lib_file_operate.file_utils import file_name_remove_ext
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_ERROR, LOG_INFO
 
 
@@ -50,13 +51,13 @@ def check_base_var_duplicates(config, dirs):
         # 获取所有文件名和目录名
         all_path_dict = {}
         for base_var_dir, ext_list in temp_dirs.items():
-            path_info_dict = get_dir_path_info_dict(base_var_dir, ext_list=ext_list)
+            path_info_dict = get_dirs_path_info_dict(base_var_dir, ext_list=ext_list)
             all_path_dict.update(path_info_dict)
 
         # 组装 [基本变量名]
         all_base_vars = []
         for path_name in list(all_path_dict.values()):
-            base_var_name = f'%{file_name_remove_ext_list(path_name, ext_list)}%'
+            base_var_name = f'%{file_name_remove_ext(path_name, ext_list)}%'
             all_base_vars.append(base_var_name)
         output(f"[*] all_base_vars: len:{len(all_base_vars)} {all_base_vars}", level=LOG_INFO)
 
@@ -66,9 +67,9 @@ def check_base_var_duplicates(config, dirs):
             output(f"[-] 发现 重复基本变量 建议修改名称: {duplicates_file_list}", level=LOG_ERROR)
             # 反向查找文件所在目录
             for duplicates_file in duplicates_file_list:
-                for k, v in all_path_dict.items():
-                    if duplicates_file.strip("%") in str(k):
-                        output(f"[-] 重复基本变量 [{duplicates_file}] 位于 {k}", level=LOG_ERROR)
+                for file_path, file_name in all_path_dict.items():
+                    if duplicates_file.strip("%") in str(file_name):
+                        output(f"[-] 重复基本变量 [{duplicates_file}] 位于 {file_name}", level=LOG_ERROR)
         else:
             output(f"[*] 未发现 重复基本变量...{list(temp_dirs.keys())}", level=LOG_INFO)
 

@@ -8,9 +8,10 @@ from libs.lib_args.input_const import *
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_file_operate.file_coding import file_encoding
 from libs.lib_file_operate.file_read import read_file_to_list
+from libs.lib_file_operate.file_utils import file_name_remove_ext
 from libs.lib_file_operate.file_write import write_lines
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO
-from libs.lib_file_operate.file_path import get_dir_path_file_info_dict, file_name_remove_ext_list
+from libs.lib_file_operate.file_path import get_dirs_file_info_dict
 
 
 # 批量进行格式化 【全部小写、去重】
@@ -48,12 +49,12 @@ def format_base_dict(dirs):
     2、进行格式化 【全部小写、去重】
     """
     for base_var_dir, ext_list in dirs.items():
-        file_info_dict = get_dir_path_file_info_dict(base_var_dir, ext_list=ext_list)
+        file_info_dict = get_dirs_file_info_dict(base_var_dir, ext_list=ext_list)
         output(f"[*] DIR:{base_var_dir} -> SUFFIX: {ext_list}")
-        output(f"[*] FILES : {list(file_info_dict.values())}")
+        output(f"[*] FILES : {list(file_info_dict.keys())}")
 
-        for file_name, file_path in file_info_dict.items():
-            pure_name = file_name_remove_ext_list(file_name, ext_list)
+        for file_path, file_name in file_info_dict.items():
+            pure_name = file_name_remove_ext(file_name, ext_list)
             # 读文件到列表
             file_content = read_file_to_list(file_path,
                                              encoding=file_encoding(file_path),
