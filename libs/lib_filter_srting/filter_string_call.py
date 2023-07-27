@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-
-from libs.lib_collect_opera.collect_operation import de_duplicate_tuple_list
+from libs.lib_collect_opera.tuple_operate import de_dup_tuples
 from libs.lib_filter_srting.filter_const import *
 from libs.lib_filter_srting.filter_string_rule import *
 
@@ -69,7 +68,7 @@ def format_tuple_list(tuple_list=[], options_dict={}):
     if tuple_list:
         if options_dict[FT_NO_DUPLICATE]:
             # 去重复
-            tuple_list = de_duplicate_tuple_list(tuple_list=tuple_list)
+            tuple_list = de_dup_tuples(tuple_list=tuple_list)
 
         # 不允许包含指定的字符列表
         if options_dict[FT_BAN_SYMBOLS_NAME] or options_dict[FT_BAN_SYMBOLS_PASS]:

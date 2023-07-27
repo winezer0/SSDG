@@ -9,8 +9,8 @@ from libs.lib_args.input_basic import config_dict_add_args
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_chinese_encode.chinese_encode import tuple_list_chinese_encode_by_char
 from libs.lib_chinese_pinyin.chinese_list_to_alphabet_list import dict_chinese_to_dict_alphabet
-from libs.lib_collect_opera.collect_operation import cartesian_product_merging, unfrozen_tuple_list, \
-    freeze_list_subtract, frozen_tuple_list
+from libs.lib_collect_opera.list_operate import cartesian_product_merging
+from libs.lib_collect_opera.tuple_operate import frozen_tuples, tuples_subtract, unfrozen_tuples
 from libs.lib_dyna_rule.base_key_replace import replace_list_has_key_str, remove_not_used_key
 from libs.lib_dyna_rule.base_rule_parser import base_rule_render_list
 from libs.lib_dyna_rule.set_basic_var import set_base_var_dict
@@ -202,7 +202,7 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         # 写入当前结果
         step += 1
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.cartesian.pair.txt"),
-                    frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
+                    frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
 
     # 对基于用户名变量的密码做替换处理
     if True:
@@ -219,7 +219,7 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         # 写入当前结果
         step += 1
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_mark.pair.txt"),
-                    frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
+                    frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
 
     # 对密码做动态处理
     if True:
@@ -234,7 +234,7 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
 
         # 写入当前结果
         step += 1
-        frozen_tuple_list_ = frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
+        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.transfer_pass.pair.txt"), frozen_tuple_list_)
 
     # 对元组列表进行 中文编码处理
@@ -252,7 +252,7 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         # 写入当前结果
         step += 1
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.chinese_encode.pair.txt"),
-                    frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
+                    frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
 
     # 排除历史文件内的账号密码对
     if config_dict[GB_EXCLUDE_FLAG] and not file_is_empty(config_dict[GB_EXCLUDE_FILE]):
@@ -263,13 +263,12 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
                                                    de_weight=True,
                                                    de_unprintable=True)
         # 移除已经被爆破过得账号密码
-        history_tuple_list = unfrozen_tuple_list(history_user_pass_list, config_dict[GB_CONST_LINK])
-        name_pass_pair_list = freeze_list_subtract(name_pass_pair_list, history_tuple_list,
-                                                   config_dict[GB_CONST_LINK])
+        history_tuple_list = unfrozen_tuples(history_user_pass_list, config_dict[GB_CONST_LINK])
+        name_pass_pair_list = tuples_subtract(name_pass_pair_list, history_tuple_list,  config_dict[GB_CONST_LINK])
 
         # 写入当前结果
         step += 1
-        frozen_tuple_list_ = frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
+        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.exclude_history.txt"), frozen_tuple_list_)
     return name_pass_pair_list
 
@@ -378,7 +377,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
             write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pair.txt"), name_pass_pair_list)
 
     # 拆分出账号 密码对 元祖
-    name_pass_pair_list = unfrozen_tuple_list(name_pass_pair_list, config_dict[GB_PAIR_LINK_SYMBOL])
+    name_pass_pair_list = unfrozen_tuples(name_pass_pair_list, config_dict[GB_PAIR_LINK_SYMBOL])
 
     # 如果输入了默认值列表,就组合更新的账号 列表
     if default_name_list or default_pass_list:
@@ -405,7 +404,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
 
         # 写入当前结果
         step += 1
-        frozen_tuple_list_ = frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
+        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_mark.pair.txt"), frozen_tuple_list_)
 
     # 对密码做动态处理
@@ -421,7 +420,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
 
         # 写入当前结果
         step += 1
-        frozen_tuple_list_ = frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
+        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.transfer_pass.pair.txt"), frozen_tuple_list_)
 
     # 对元组列表进行 中文编码处理
@@ -438,7 +437,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
         output(f"[*] 元组过滤格式化完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
         # 写入当前结果
         step += 1
-        frozen_tuple_list_ = frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
+        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.chinese_encode.pair.txt"),
                     frozen_tuple_list_)
 
@@ -451,13 +450,12 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
                                                    de_weight=True,
                                                    de_unprintable=True)
         # 移除已经被爆破过得账号密码
-        history_tuple_list = unfrozen_tuple_list(history_user_pass_list, config_dict[GB_CONST_LINK])
-        name_pass_pair_list = freeze_list_subtract(name_pass_pair_list, history_tuple_list,
-                                                   config_dict[GB_CONST_LINK])
+        history_tuple_list = unfrozen_tuples(history_user_pass_list, config_dict[GB_CONST_LINK])
+        name_pass_pair_list = tuples_subtract(name_pass_pair_list, history_tuple_list, config_dict[GB_CONST_LINK])
 
         # 写入当前结果
         step += 1
-        frozen_tuple_list_ = frozen_tuple_list(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
+        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
         write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.exclude_history.txt"), frozen_tuple_list_)
     return name_pass_pair_list
 
