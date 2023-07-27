@@ -18,7 +18,7 @@ from libs.lib_dyna_rule.set_depend_var import set_dependent_var_dict
 from libs.lib_file_operate.file_coding import file_encoding
 from libs.lib_file_operate.file_utils import file_is_empty
 from libs.lib_file_operate.file_read import read_file_to_list
-from libs.lib_file_operate.file_write import write_lines
+from libs.lib_file_operate.file_write import write_line
 from libs.lib_filter_srting.filter_string_call import format_string_list, format_tuple_list
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO, LOG_ERROR, LOG_DEBUG
 from libs.lib_social_dict.repl_mark_user import replace_mark_user_on_pass
@@ -85,8 +85,8 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         output(f"[*] 列表过滤格式化完成 name_list:{len(name_list)} | pass_list:{len(pass_list)}", level=LOG_INFO)
         # 写入当前结果
         step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.render_base.name.txt"), name_list)
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.render_base.pass.txt"), pass_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.render_base.name.txt"), name_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.render_base.pass.txt"), pass_list)
 
     # 基本变量替换处理
     if True:
@@ -143,8 +143,8 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         output(f"[*] 列表过滤格式化完成 name_list:{len(name_list)} | pass_list:{len(pass_list)}", level=LOG_INFO)
         # 写入当前结果
         step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_base.name.txt"), name_list)
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_base.pass.txt"), pass_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_base.name.txt"), name_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_base.pass.txt"), pass_list)
 
     # 因变量替换处理
     if True:
@@ -172,8 +172,8 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
 
         # 写入当前结果
         step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.name.txt"), name_list)
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pass.txt"), pass_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.name.txt"), name_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pass.txt"), pass_list)
 
     # 调用tag exec来进行操作,实现字符串反序 实现1221等格式
     if True:
@@ -187,8 +187,8 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
 
         # 写入当前结果
         step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.name.txt"), name_list)
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pass.txt"), pass_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.name.txt"), name_list)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pass.txt"), pass_list)
 
     # 组合用户名列表和密码列表
     if True:
@@ -201,8 +201,8 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         output(f"[*] 元组过滤格式化完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
         # 写入当前结果
         step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.cartesian.pair.txt"),
-                    frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.cartesian.pair.txt"),
+                   frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
 
     # 对基于用户名变量的密码做替换处理
     if True:
@@ -218,8 +218,8 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
 
         # 写入当前结果
         step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_mark.pair.txt"),
-                    frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_mark.pair.txt"),
+                   frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
 
     # 对密码做动态处理
     if True:
@@ -235,7 +235,7 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         # 写入当前结果
         step += 1
         frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.transfer_pass.pair.txt"), frozen_tuple_list_)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.transfer_pass.pair.txt"), frozen_tuple_list_)
 
     # 对元组列表进行 中文编码处理
     if config_dict[GB_CHINESE_ENCODE_CODING]:
@@ -251,8 +251,8 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         output(f"[*] 元组过滤格式化完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
         # 写入当前结果
         step += 1
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.chinese_encode.pair.txt"),
-                    frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.chinese_encode.pair.txt"),
+                   frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK]))
 
     # 排除历史文件内的账号密码对
     if config_dict[GB_EXCLUDE_FLAG] and not file_is_empty(config_dict[GB_EXCLUDE_FILE]):
@@ -269,7 +269,7 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
         # 写入当前结果
         step += 1
         frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.exclude_history.txt"), frozen_tuple_list_)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.exclude_history.txt"), frozen_tuple_list_)
     return name_pass_pair_list
 
 
@@ -303,8 +303,8 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
             output(f"[*] 元组动态规则解析完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
             # 写入当前结果
             step += 1
-            write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.base_render.pair.txt"),
-                        name_pass_pair_list)
+            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.base_render.pair.txt"),
+                       name_pass_pair_list)
 
         # 基本变量处理
         if True:
@@ -342,8 +342,8 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
             output(f"[*] 元组基本变量替换完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
             # 写入当前结果
             step += 1
-            write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_base.pair.txt"),
-                        name_pass_pair_list)
+            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_base.pair.txt"),
+                       name_pass_pair_list)
 
         # 因变量处理
         if True:
@@ -365,8 +365,8 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
 
             # 写入当前结果
             step += 1
-            write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pair.txt"),
-                        name_pass_pair_list)
+            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pair.txt"),
+                       name_pass_pair_list)
 
         # 调用tag exec来进行操作,实现字符串反序 实现1221等格式
         if True:
@@ -374,7 +374,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
 
             # 写入当前结果
             step += 1
-            write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pair.txt"), name_pass_pair_list)
+            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pair.txt"), name_pass_pair_list)
 
     # 拆分出账号 密码对 元祖
     name_pass_pair_list = unfrozen_tuples(name_pass_pair_list, config_dict[GB_PAIR_LINK_SYMBOL])
@@ -405,7 +405,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
         # 写入当前结果
         step += 1
         frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_mark.pair.txt"), frozen_tuple_list_)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_mark.pair.txt"), frozen_tuple_list_)
 
     # 对密码做动态处理
     if True:
@@ -421,7 +421,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
         # 写入当前结果
         step += 1
         frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.transfer_pass.pair.txt"), frozen_tuple_list_)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.transfer_pass.pair.txt"), frozen_tuple_list_)
 
     # 对元组列表进行 中文编码处理
     if config_dict[GB_CHINESE_ENCODE_CODING]:
@@ -438,8 +438,8 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
         # 写入当前结果
         step += 1
         frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.chinese_encode.pair.txt"),
-                    frozen_tuple_list_)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.chinese_encode.pair.txt"),
+                   frozen_tuple_list_)
 
     # 排除历史文件内的账号密码对
     if config_dict[GB_EXCLUDE_FLAG] and not file_is_empty(config_dict[GB_EXCLUDE_FILE]):
@@ -456,7 +456,7 @@ def social_dict_by_pairs_file(config_dict, pair_file_names):
         # 写入当前结果
         step += 1
         frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_lines(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.exclude_history.txt"), frozen_tuple_list_)
+        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.exclude_history.txt"), frozen_tuple_list_)
     return name_pass_pair_list
 
 

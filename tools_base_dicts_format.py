@@ -9,7 +9,7 @@ from libs.lib_attribdict.config import CONFIG
 from libs.lib_file_operate.file_coding import file_encoding
 from libs.lib_file_operate.file_read import read_file_to_list
 from libs.lib_file_operate.file_utils import file_name_remove_ext
-from libs.lib_file_operate.file_write import write_lines
+from libs.lib_file_operate.file_write import write_line
 from libs.lib_log_print.logger_printer import set_logger, output, LOG_INFO
 from libs.lib_file_operate.file_path import get_dirs_file_info_dict
 
@@ -68,7 +68,7 @@ def format_base_dict(dirs):
                 if len(file_content) != len(new_content_list):
                     output(f"[*] 有效变量名: {f'%{pure_name}%'}")
                     output(f"[*] 变量名内容: {file_content}")
-                    write_lines(file_path, new_content_list, encoding="utf-8", new_line=True, mode="w+")
+                    write_line(file_path, new_content_list, encoding="utf-8", new_line=True, mode="w+")
                     output(f"[+] 成功格式化: {file_path}", level=LOG_INFO)
                 else:
                     output(f"[*] 无需格式化: {file_path}", level=LOG_INFO)
