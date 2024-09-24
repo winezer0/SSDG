@@ -4,7 +4,7 @@
 import setting_com
 import setting_dict
 from libs.lib_args.input_const import *
-from libs.lib_args.input_parse import args_parser, args_dict_handle, config_dict_handle
+from libs.lib_args.input_parse_pass import args_parser, args_dict_handle, config_dict_handle
 from libs.lib_args.input_basic import config_dict_add_args
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_chinese_encode.chinese_encode import tuple_list_chinese_encode_by_char
@@ -25,7 +25,7 @@ from libs.lib_social_dict.repl_mark_user import replace_mark_user_on_pass
 from libs.lib_social_dict.transfer_passwd import transfer_passwd
 from libs.lib_tags_exec.tags_const import TAG_FUNC_DICT
 from libs.lib_tags_exec.tags_exec import match_exec_repl_loop_batch
-from libs.utils import gen_file_names
+from libs.utils import select_files_by_level
 
 
 # 分割写法 基于 用户名和密码规则生成 元组列表
@@ -273,217 +273,21 @@ def social_dict_by_name_pass(config_dict, user_name_files, user_pass_files ):
     return name_pass_pair_list
 
 
-# 分割写法 基于 用户名:密码对 规则生成 元组列表
-def social_dict_by_pairs_file(config_dict, pair_file_names):
-    mode = "mode2"  # 与字典文件命名相关, 不建议修改
-    step = 0
-
-    default_name_list = config_dict[GB_DEFAULT_NAME_LIST]
-    default_pass_list = config_dict[GB_DEFAULT_PASS_LIST]
-
-    # 读取用户账号文件
-    name_pass_pair_list = []
-    for pair_file in pair_file_names:
-        lines = read_file_to_list(pair_file, encoding=file_encoding(pair_file), de_strip=True, de_weight=True)
-        name_pass_pair_list.extend(lines)
-    if name_pass_pair_list:
-        # 保持原始顺序去重
-        name_pass_pair_list = [x for i, x in enumerate(name_pass_pair_list) if x not in name_pass_pair_list[:i]]
-    else:
-        output(f"[!] 未输入任何有效密码字典文件!!!", level=LOG_ERROR)
-        return []
-
-    output(f"[*] 读取账号密码文件完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-
-    # 动态规则解析和基本变量替换过程 默认取消
-    if config_dict[GB_USE_PAIR_BASE_REPL]:
-        # 动态规则解析
-        if True:
-            name_pass_pair_list, _, _ = base_rule_render_list(name_pass_pair_list)
-            output(f"[*] 元组动态规则解析完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-            # 写入当前结果
-            step += 1
-            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.base_render.pair.txt"),
-                       name_pass_pair_list)
-
-        # 基本变量处理
-        if True:
-            # 获取基本变量字典
-            base_var_replace_dict = set_base_var_dict(config_dict[GB_BASE_VAR_DIR], config_dict[GB_BASE_DICT_SUFFIX],
-                                                      config_dict[GB_BASE_VAR_REPLACE_DICT])
-            output(f"[*] 基本变量字典获取成功 base_var_replace_dict:{len(str(base_var_replace_dict))}")
-
-            base_var_replace_dict = set_base_var_dict(config_dict[GB_BASE_DYNA_DIR], config_dict[GB_BASE_DICT_SUFFIX],
-                                                      base_var_replace_dict)
-            output(f"[*] 动态基本变量获取成功 base_var_replace_dict:{len(str(base_var_replace_dict))}")
-
-            base_var_replace_dict = set_base_var_dict(config_dict[GB_BASE_NAME_DIR], config_dict[GB_BASE_DICT_SUFFIX],
-                                                      base_var_replace_dict)
-            output(f"[*] 姓名基本变量获取成功 base_var_replace_dict:{len(str(base_var_replace_dict))}")
-
-            base_var_replace_dict = set_base_var_dict(config_dict[GB_BASE_PASS_DIR], config_dict[GB_BASE_DICT_SUFFIX],
-                                                      base_var_replace_dict)
-            output(f"[*] 密码基本变量获取成功 base_var_replace_dict:{len(str(base_var_replace_dict))}")
-
-            # 清空不被需要的字典键
-            base_var_replace_dict = remove_not_used_key(base_var_replace_dict, name_pass_pair_list)
-
-            # 对基本变量字典中的列表值进行中文处理
-            if config_dict[GB_CHINESE_TO_PINYIN]:
-                output(f"[*] 中文列表处理转换开始 base_var_replace_dict:{len(str(base_var_replace_dict))}", level=LOG_INFO)
-                base_var_replace_dict = dict_chinese_to_dict_alphabet(string_dict=base_var_replace_dict,
-                                                                      options_dict=config_dict[
-                                                                          GB_CHINESE_OPTIONS_TUPLE],
-                                                                      store_chinese=config_dict[GB_STORE_CHINESE])
-                output(f"[*] 中文列表处理转换完成 base_var_replace_dict:{len(str(base_var_replace_dict))}", level=LOG_INFO)
-
-            # 基本变量替换
-            name_pass_pair_list, _, _ = replace_list_has_key_str(name_pass_pair_list, base_var_replace_dict)
-            output(f"[*] 元组基本变量替换完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-            # 写入当前结果
-            step += 1
-            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_base.pair.txt"),
-                       name_pass_pair_list)
-
-        # 因变量处理
-        if True:
-            # 获取因变量
-            dependent_var_replace_dict = set_dependent_var_dict(
-                target_url=config_dict[GB_TARGET],
-                base_dependent_dict=config_dict[GB_DEPENDENT_VAR_REPLACE_DICT],
-                ignore_ip_format=config_dict[GB_IGNORE_IP_FORMAT],
-                symbol_replace_dict=config_dict[GB_SYMBOL_REPLACE_DICT],
-                not_allowed_symbol=config_dict[GB_NOT_ALLOW_SYMBOL]
-            )
-
-            # 清空没有被使用的键
-            dependent_var_replace_dict = remove_not_used_key(dependent_var_replace_dict, name_pass_pair_list)
-
-            # 因变量替换
-            name_pass_pair_list, _, _ = replace_list_has_key_str(name_pass_pair_list, dependent_var_replace_dict)
-            output(f"[*] 元组因变量替换完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-
-            # 写入当前结果
-            step += 1
-            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_dependent.pair.txt"),
-                       name_pass_pair_list)
-
-        # 调用tag exec来进行操作,实现字符串反序 实现1221等格式
-        if True:
-            name_pass_pair_list = match_exec_repl_loop_batch(name_pass_pair_list, TAG_FUNC_DICT)
-
-            # 写入当前结果
-            step += 1
-            write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.tag_exec.pair.txt"), name_pass_pair_list)
-
-    # 拆分出账号 密码对 元祖
-    name_pass_pair_list = unfrozen_tuples(name_pass_pair_list, config_dict[GB_PAIR_LINK_SYMBOL])
-
-    # 如果输入了默认值列表,就组合更新的账号 列表
-    if default_name_list or default_pass_list:
-        output(f"[*] 已输入默认账号列表 {default_name_list} 需要更新账号密码列表")
-        if default_name_list:
-            pass_list = [name_pass_pair[1] for name_pass_pair in name_pass_pair_list]
-            name_pass_pair_list = cartesian_product_merging(default_name_list, pass_list)
-        if default_pass_list:
-            name_list = [name_pass_pair[0] for name_pass_pair in name_pass_pair_list]
-            name_pass_pair_list = cartesian_product_merging(name_list, default_pass_list)
-        output(f"[*] 重组账号密码列表完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-
-    # 对基于用户名变量的密码做综合处理
-    if True:
-        name_pass_pair_list = replace_mark_user_on_pass(name_pass_pair_list,
-                                                        mark_string=config_dict[GB_USER_NAME_MARK],
-                                                        options_dict=config_dict[GB_SOCIAL_USER_OPTIONS_DICT])
-        output(f"[*] 用户名变量替换完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-
-        # 进行格式化
-        name_pass_pair_list = format_tuple_list(tuple_list=name_pass_pair_list,
-                                                options_dict=config_dict[GB_FILTER_TUPLE_OPTIONS])
-        output(f"[*] 元组过滤格式化完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-
-        # 写入当前结果
-        step += 1
-        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.replace_mark.pair.txt"), frozen_tuple_list_)
-
-    # 对密码做动态处理
-    if True:
-        name_pass_pair_list = transfer_passwd(name_pass_pair_list,
-                                              options_dict=config_dict[GB_SOCIAL_PASS_OPTIONS_DICT])
-        output(f"[*] 密码字符串修改完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-
-        # 进行格式化
-        name_pass_pair_list = format_tuple_list(tuple_list=name_pass_pair_list,
-                                                options_dict=config_dict[GB_FILTER_TUPLE_OPTIONS])
-        output(f"[*] 元组过滤格式化完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-
-        # 写入当前结果
-        step += 1
-        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.transfer_pass.pair.txt"), frozen_tuple_list_)
-
-    # 对元组列表进行 中文编码处理
-    if config_dict[GB_CHINESE_ENCODE_CODING]:
-        name_pass_pair_list = tuple_list_chinese_encode_by_char(name_pass_pair_list,
-                                                                coding_list=config_dict[GB_CHINESE_ENCODE_CODING],
-                                                                url_encode=config_dict[GB_CHINESE_CHAR_URLENCODE],
-                                                                de_strip=True,
-                                                                only_chinese=config_dict[GB_ONLY_CHINESE_URL_ENCODE])
-        output(f"[*] 中文编码衍生完成 name_pass_pair_list:{len(name_pass_pair_list)}")
-        # 进行格式化
-        name_pass_pair_list = format_tuple_list(tuple_list=name_pass_pair_list,
-                                                options_dict=config_dict[GB_FILTER_TUPLE_OPTIONS])
-        output(f"[*] 元组过滤格式化完成 name_pass_pair_list:{len(name_pass_pair_list)}", level=LOG_INFO)
-        # 写入当前结果
-        step += 1
-        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.chinese_encode.pair.txt"),
-                   frozen_tuple_list_)
-
-    # 排除历史文件内的账号密码对
-    if config_dict[GB_EXCLUDE_FLAG] and not file_is_empty(config_dict[GB_EXCLUDE_FILE]):
-        output(f"[*] 历史爆破记录过滤开始, 原始元素数量 {len(name_pass_pair_list)}", level=LOG_INFO)
-        history_user_pass_list = read_file_to_list(config_dict[GB_EXCLUDE_FILE],
-                                                   encoding='utf-8',
-                                                   de_strip=True,
-                                                   de_weight=True,
-                                                   de_unprintable=True)
-        # 移除已经被爆破过得账号密码
-        history_tuple_list = unfrozen_tuples(history_user_pass_list, config_dict[GB_CONST_LINK])
-        name_pass_pair_list = tuples_subtract(name_pass_pair_list, history_tuple_list, config_dict[GB_CONST_LINK])
-
-        # 写入当前结果
-        step += 1
-        frozen_tuple_list_ = frozen_tuples(name_pass_pair_list, link_symbol=config_dict[GB_CONST_LINK])
-        write_line(config_dict[GB_TEMP_DICT_DIR].joinpath(f"{mode}.{step}.exclude_history.txt"), frozen_tuple_list_)
-    return name_pass_pair_list
-
-
 def actions_controller(config_dict):
-    if config_dict[GB_USE_PAIR_FILE]:
-        # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
-        selected_pair_files = gen_file_names(format_str=config_dict[GB_PAIR_FILE_STR],
-                                             replace=config_dict[GB_RULE_LEVEL_PAIR],
-                                             rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+    # 根据 level参数 和 GB_RULE_LEVEL_EXACT 设置修改字典路径
+    selected_name_files = select_files_by_level(filename_format=config_dict[GB_NAME_FILE_STR],
+                                                replace_value=config_dict[GB_RULE_LEVEL_NAME],
+                                                rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
 
-        user_pass_dict = social_dict_by_pairs_file(config_dict=config_dict,
-                                                   pair_file_names=selected_pair_files,
-                                                   )
-    else:
-        # 根据level参数和GB_RULE_LEVEL_EXACT设置修改字典路径
-        selected_name_files = gen_file_names(format_str=config_dict[GB_NAME_FILE_STR],
-                                             replace=config_dict[GB_RULE_LEVEL_NAME],
-                                             rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+    selected_pass_files = select_files_by_level(filename_format=config_dict[GB_PASS_FILE_STR],
+                                                replace_value=config_dict[GB_RULE_LEVEL_PASS],
+                                                rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
+    output(f"[*] 本次调用的密码规则文件: {selected_pass_files}", level=LOG_INFO)
 
-        selected_pass_files = gen_file_names(format_str=config_dict[GB_PASS_FILE_STR],
-                                             replace=config_dict[GB_RULE_LEVEL_PASS],
-                                             rule_exact=config_dict[GB_RULE_LEVEL_EXACT])
-
-        user_pass_dict = social_dict_by_name_pass(config_dict=config_dict,
-                                                  user_name_files=selected_name_files,
-                                                  user_pass_files=selected_pass_files,
-                                                  )
+    user_pass_dict = social_dict_by_name_pass(config_dict=config_dict,
+                                              user_name_files=selected_name_files,
+                                              user_pass_files=selected_pass_files,
+                                              )
     output(f"[*] 最终生成账号密码对数量: {len(user_pass_dict)}", level=LOG_INFO)
 
 

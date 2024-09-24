@@ -21,26 +21,21 @@ def args_parser(config_dict):
     # 规则示例: { "param": "", "dest": "","name": "", "default": "", "nargs": "","action": "",  "choices": "", "type": "","help": ""}
     args_options = [
         # 指定扫描URL或文件
-        {"param": GB_TARGET, "help": f"Specify the blasting Target url"},
+        {"param": GB_TARGET, "help": f"需要爆破的URL目标 用于提取部分域名信息"},
 
         # 指定字典后缀名列表
-        {"param": GB_BASE_DICT_SUFFIX, "nargs": "+", "help": "Specifies Base Var File Suffix"},
+        {"param": GB_BASE_DICT_SUFFIX, "nargs": "+", "help": "需要调用的密码规则元素文件后缀"},
 
-        {"param": GB_RULE_LEVEL_NAME, "type": int, "help": "Specifies the name rule file level or prefix"},
-        {"param": GB_RULE_LEVEL_PASS, "type": int, "help": "Specifies the pass rule file level or prefix"},
-        {"param": GB_RULE_LEVEL_PAIR, "type": int, "help": "Specifies the pair rule file level or prefix"},
+        {"param": GB_RULE_LEVEL_PASS, "type": int, "help": "指定密码规则文件的级别"},
 
-        {"param": GB_RULE_LEVEL_EXACT, "action": "store_false", "help": "Specifies Exact call level dictionary"},
+        {"param": GB_RULE_LEVEL_EXACT, "action": "store_false", "help": "是否精确选择字典文件 默认选择小于等于指定级别的规则"},
 
-        {"param": GB_USE_PAIR_FILE, "action": "store_false", "help": "Specifies Use Piar File"},
-        {"param": GB_PAIR_LINK_SYMBOL, "help": "Specifies Name Pass Link Symbol in history file"},
-
-        {"param": GB_EXCLUDE_FLAG, "action": "store_true", "help": "Specifies exclude history file flag"},
-        {"param": GB_EXCLUDE_FILE, "help": "Specifies exclude history file name"},
-        {"param": GB_CONST_LINK, "help": "Specifies Name Pass Link Symbol in history file"},
+        {"param": GB_EXCLUDE_FLAG, "action": "store_true", "help": "过滤已经爆破过的账号密码对文件 开关"},
+        {"param": GB_EXCLUDE_FILE, "help": "过滤已经爆破过的账号密码对文件 名称"},
+        {"param": GB_CONST_LINK, "help": "过滤已经爆破过的账号密码对文件 连接符"},
 
         # 开启调试功能
-        {"param": GB_DEBUG_FLAG, "action": "store_true", "help": "Specifies Display Debug Info"},
+        {"param": GB_DEBUG_FLAG, "action": "store_true", "help": "显示调试信息"},
     ]
 
     param_dict = {}  # 存储所有长-短 参数对应关系,用于自动处理重复的短参数名
