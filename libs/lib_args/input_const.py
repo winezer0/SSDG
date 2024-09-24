@@ -51,12 +51,9 @@ GB_RULE_DICT_DIR = None
 # 账号密码文件标记字符串
 GB_NAME_FILE_STR = None
 GB_PASS_FILE_STR = None
-# 账号密码对文件命名格式
-GB_PAIR_FILE_STR = None
 # 实际调用的字典级别设置
 GB_RULE_LEVEL_NAME = None
 GB_RULE_LEVEL_PASS = None
-GB_RULE_LEVEL_PAIR = None
 GB_RULE_LEVEL_EXACT = None
 # 用户名中的中文转拼音处理
 GB_CHINESE_TO_PINYIN = None  # 开启中文转拼音的操作

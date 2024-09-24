@@ -55,24 +55,21 @@ def init_custom(config):
     # 账号密码目录
     config[GB_RULE_DICT_DIR] = config[GB_BASE_DIR].joinpath("dict_rule")
     # 账号密码字典文件的格式
-    config[GB_NAME_FILE_STR] = config[GB_RULE_DICT_DIR].joinpath("level{LEVEL}.mode1_name.txt").as_posix()
-    config[GB_PASS_FILE_STR] = config[GB_RULE_DICT_DIR].joinpath("level{LEVEL}.mode1_pass.txt").as_posix()
-    # 账号密码对文件命名格式
-    config[GB_PAIR_FILE_STR] = config[GB_RULE_DICT_DIR].joinpath("level{LEVEL}.mode2_pairs.txt").as_posix()
+    config[GB_NAME_FILE_STR] = config[GB_RULE_DICT_DIR].joinpath("name.level.{LEVEL}.txt").as_posix()
+    config[GB_PASS_FILE_STR] = config[GB_RULE_DICT_DIR].joinpath("pass.level.{LEVEL}.txt").as_posix()
     ###################
     # 实际调用的字典级别设置
     config[GB_RULE_LEVEL_NAME] = 10  # 调用 level1.mode1_name.txt
     config[GB_RULE_LEVEL_PASS] = 10  # 调用 level1.mode1_pass.txt
-    config[GB_RULE_LEVEL_PAIR] = 10  # 调用 level1.mode2_pairs.txt
     config[GB_RULE_LEVEL_EXACT] = True  # 是否仅调用精确的字典级别,不调用更下级的字典
     ############################################################
     # 进行更细节的配置
-    chinese_config(config)  # 中文转拼音处理
-    exclude_config(config)  # 提取排除处理
-    replace_config(config)  # 密码中的用户名替换处理
+    load_chinese_config(config)  # 中文转拼音处理
+    load_exclude_config(config)  # 提取排除处理
+    load_replace_config(config)  # 密码中的用户名替换处理
 
 
-def chinese_config(config):
+def load_chinese_config(config):
     ############################################################
     # 用户名中的中文转拼音处理
     config[GB_CHINESE_TO_PINYIN] = True  # 开启中文转拼音的操作
@@ -178,7 +175,7 @@ def chinese_config(config):
     ############################################################
 
 
-def exclude_config(config):
+def load_exclude_config(config):
     # 对生成的账号|密码列表进行排除的选项配置
     config[GB_IGNORE_EMPTY] = True  # 进行格式过滤时保留空值[""]
     # 排除列表 排除姓名的配置
@@ -279,7 +276,7 @@ def exclude_config(config):
     ############################################################
 
 
-def replace_config(config):
+def load_replace_config(config):
     # 对密码中的用户名替换时候的一些选项
     # config_dict[GB_SOCIAL_USER_OPTIONS_DICT] = copy.copy(SOCIAL_USER_OPTIONS_DICT)
     config[GB_SOCIAL_USER_OPTIONS_DICT] = {
