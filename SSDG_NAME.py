@@ -5,7 +5,7 @@ import setting_com
 import setting_dict
 from libs.lib_args.input_basic import config_dict_add_args
 from libs.lib_args.input_const import *
-from libs.lib_args.input_parse_name import args_parser
+from libs.lib_args.input_parse import args_parser_name
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_chinese_pinyin.chinese_list_to_alphabet_list import dict_chinese_value_to_alphabet
 from libs.lib_dyna_rule.base_key_replace import replace_list_has_key_str, remove_not_used_key
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     set_logger(CONFIG[GB_LOG_INFO_FILE], CONFIG[GB_LOG_ERROR_FILE], CONFIG[GB_LOG_DEBUG_FILE], True)
 
     # 输入参数解析
-    args = args_parser(CONFIG)
+    args = args_parser_name(CONFIG)
     output(f"[*] 输入参数信息: {args}")
 
     # 将输入参数加入到全局CONFIG

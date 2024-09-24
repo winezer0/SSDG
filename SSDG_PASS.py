@@ -4,7 +4,7 @@
 import setting_com
 import setting_dict
 from libs.lib_args.input_const import *
-from libs.lib_args.input_parse_pass import args_parser, args_dict_handle, config_dict_handle
+from libs.lib_args.input_parse import args_parser_pass, args_dict_handle, config_dict_handle
 from libs.lib_args.input_basic import config_dict_add_args
 from libs.lib_attribdict.config import CONFIG
 from libs.lib_chinese_encode.chinese_encode import tuple_list_chinese_encode_by_char
@@ -42,10 +42,9 @@ def generate_social_dict_for_pass(config_dict, name_files, pass_rule_files):
         for name_file in name_files:
             lines = read_file_to_list(name_file, encoding=file_encoding(name_file), de_strip=True, de_weight=True)
             name_list.extend(lines)
-
-    # 保持原始顺序去重
-    name_list = [x for i, x in enumerate(name_list) if x not in name_list[:i]]
-    output(f"[*] 读取账号文件完成 name_list:{len(name_list)} <--> {name_list[:10]}", level=LOG_INFO)
+        # 保持原始顺序去重
+        name_list = [x for i, x in enumerate(name_list) if x not in name_list[:i]]
+        output(f"[*] 读取账号文件完成 name_list:{len(name_list)} <--> {name_list[:10]}", level=LOG_INFO)
 
     # 读取密码规则文件
     PASS_LIST = []
@@ -268,7 +267,10 @@ def generate_social_dict_for_pass(config_dict, name_files, pass_rule_files):
 def actions_controller(config_dict):
     # 　用户输入的账号字典
     selected_name_files = config_dict[GB_BASE_NAME_FILE]
-    output(f"[*] 本次调用的基本账号文件: {selected_name_files}", level=LOG_INFO)
+    if selected_name_files:
+        output(f"[*] 本次调用的基本账号文件: {selected_name_files}", level=LOG_INFO)
+    else:
+        output(f"[-] 未输入账号字典参考,无法处理基于账号的密码规则...", level=LOG_ERROR)
 
     # 根据 level参数 和 GB_RULE_LEVEL_EXACT 设置修改字典路径
     selected_pass_files = select_files_by_level(filen_path_format=config_dict[GB_PASS_FILE_STR],
@@ -293,7 +295,7 @@ if __name__ == '__main__':
     set_logger(CONFIG[GB_LOG_INFO_FILE], CONFIG[GB_LOG_ERROR_FILE], CONFIG[GB_LOG_DEBUG_FILE], True)
 
     # 输入参数解析
-    args = args_parser(CONFIG)
+    args = args_parser_pass(CONFIG)
     output(f"[*] 输入参数信息: {args}")
 
     # 处理输入参数

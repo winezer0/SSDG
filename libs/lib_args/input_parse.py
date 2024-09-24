@@ -10,7 +10,43 @@ from libs.lib_args.input_const import *
 from libs.lib_log_print.logger_printer import LOG_ERROR, output
 
 
-def args_parser(config_dict):
+def args_parser_name(config_dict):
+    # RawDescriptionHelpFormatter 支持输出换行符
+    argument_parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, add_help=True)
+
+    # description 程序描述信息
+    argument_parser.description = Figlet().renderText("SSDG")
+
+    # 动态实现重复参数设置代码  # 可提取到函数外正常使用
+    # 规则示例: { "param": "", "dest": "","name": "", "default": "", "nargs": "","action": "",  "choices": "", "type": "","help": ""}
+    args_options = [
+        # 指定扫描URL或文件
+        {"param": GB_TARGET, "help": f"URL目标 用于提取部分域名信息"},
+
+        # 指定字典后缀名列表
+        {"param": GB_BASE_DICT_SUFFIX, "nargs": "+", "help": "需要调用的账号规则元素文件后缀"},
+
+        {"param": GB_RULE_LEVEL_NAME, "type": int, "help": "指定账号规则文件级别或者前缀"},
+
+        {"param": GB_RULE_LEVEL_EXACT, "action": "store_true", "default": False, "help": "是否精确选择字典文件 默认选择小于等于指定级别的规则"},
+
+        # 开启调试功能
+        {"param": GB_DEBUG_FLAG, "action": "store_true", "help": "显示调试信息"},
+    ]
+
+    param_dict = {}  # 存储所有长-短 参数对应关系,用于自动处理重复的短参数名
+    options_to_argument(args_options, argument_parser, config_dict, param_dict)
+
+    # 其他输出信息
+    shell_name = argument_parser.prog
+    argument_parser.epilog = f"""Examples:
+             \r  Version: {config_dict[GB_VERSION]}"""
+
+    args = argument_parser.parse_args()
+    return args
+
+
+def args_parser_pass(config_dict):
     # RawDescriptionHelpFormatter 支持输出换行符
     argument_parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, add_help=True)
 
@@ -153,6 +189,3 @@ def vars_to_param(var_name):
     # 基于变量名的更通用的实现, 要求变量是全局变量.
     param_name = str(globals()[var_name]).replace("GB_", "").lower()
     return param_name
-
-
-
