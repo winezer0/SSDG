@@ -21,7 +21,7 @@ def args_parser(config_dict):
     # 规则示例: { "param": "", "dest": "","name": "", "default": "", "nargs": "","action": "",  "choices": "", "type": "","help": ""}
     args_options = [
         # 指定扫描URL或文件
-        {"param": GB_TARGET, "help": f"需要爆破的URL目标 用于提取部分域名信息"},
+        {"param": GB_TARGET, "help": f"URL目标 用于提取部分域名信息"},
 
         # 指定字典后缀名列表
         {"param": GB_BASE_DICT_SUFFIX, "nargs": "+", "help": "需要调用的账号规则元素文件后缀"},

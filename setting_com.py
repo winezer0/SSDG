@@ -47,6 +47,3 @@ def init_custom(config):
     config[GB_CHINESE_CHAR_URLENCODE] = True  # 对中文编码时操作、同时进行URL编码
     config[GB_ONLY_CHINESE_URL_ENCODE] = True  # 仅对包含中文的字符串进行中文及URL编码操作
     ###########################################################
-    config[GB_DEFAULT_NAME_LIST] = []  # 默认用户名字典,填写后将不会读取姓名字典
-    config[GB_DEFAULT_PASS_LIST] = []  # 默认密码字典,填写后将不会读取密码字典
-    ###########################################################

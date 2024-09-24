@@ -47,6 +47,8 @@ def init_custom(config):
     config[GB_IGNORE_IP_FORMAT] = True
     # 手动指定获取域名因变量的域名 # 仅用于单独调用口令生成脚本
     config[GB_TARGET] = None
+    # 手动指定账号字典,用于生成用户密码对字典和用户相关密码
+    config[GB_BASE_NAME_FILE] = None
     # 指定用户名变量字符串 # 在密码字典中用这个变量表示用户名
     config[GB_USER_NAME_MARK] = "%%USERNAME%%"
     ############################################################
@@ -63,14 +65,6 @@ def init_custom(config):
     config[GB_RULE_LEVEL_PASS] = 10  # 调用 level1.mode1_pass.txt
     config[GB_RULE_LEVEL_PAIR] = 10  # 调用 level1.mode2_pairs.txt
     config[GB_RULE_LEVEL_EXACT] = True  # 是否仅调用精确的字典级别,不调用更下级的字典
-    ###################
-    # 直接输入账号密码对文件
-    # 账号密码对文件 连接符号
-    config[GB_PAIR_LINK_SYMBOL] = ':'
-    # 使用账号:密码对文件进行爆破，默认使用账号字典、密码字典
-    config[GB_USE_PAIR_FILE] = False
-    # 使用账号:密码对文件进行爆破时,是否进行基本变量替换
-    config[GB_USE_PAIR_BASE_REPL] = False
     ############################################################
     # 进行更细节的配置
     chinese_config(config)  # 中文转拼音处理

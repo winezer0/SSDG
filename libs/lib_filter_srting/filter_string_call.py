@@ -5,7 +5,7 @@ from libs.lib_filter_srting.filter_const import *
 from libs.lib_filter_srting.filter_string_rule import *
 
 
-def format_string_list(string_list=[], options_dict={}):
+def filter_string_list(string_list=[], options_dict={}):
     # 最后再处理一次字符串列表
     if string_list:
         if options_dict[FT_NO_DUPLICATE]:
@@ -63,7 +63,7 @@ def format_string_list(string_list=[], options_dict={}):
 
 
 # 对每次生成的(账号,密码)列表进行统一的格式化
-def format_tuple_list(tuple_list=[], options_dict={}):
+def filter_tuple_list(tuple_list=[], options_dict={}):
     # 最后再处理一次字符串列表
     if tuple_list:
         if options_dict[FT_NO_DUPLICATE]:

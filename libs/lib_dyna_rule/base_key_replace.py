@@ -91,27 +91,27 @@ def replace_list_has_key_str(will_replace_list=[],
     return result_list_, replace_count_, running_time
 
 
-def remove_not_used_key(replace_used_dict, rule_str_list):
+def remove_not_used_key(replace_dict, rule_list):
     """
-    删除不会被字典规则使用的键
-    :param replace_used_dict:
-    :param rule_str_list:
+    删除不会被字典规则使用的键 简单判断 key 是否在列表的字符串中
+    :param replace_dict:
+    :param rule_list:
     :return:
     """
     # 处理输入的是二维数组的情况
-    for index, str_ in enumerate(rule_str_list):
-        if isinstance(rule_str_list, list):
-            rule_str_list[index] = str(str_)
+    for index, str_ in enumerate(rule_list):
+        if isinstance(rule_list, list):
+            rule_list[index] = str(str_)
 
     # 深度拷贝原始字典
-    new_replace_used_dict = copy.deepcopy(replace_used_dict)
+    new_dict = copy.deepcopy(replace_dict)
 
     # 逐个判断字典的键值对是否在规则字典内
-    for key in replace_used_dict.keys():
-        if str(key) not in str(rule_str_list):
-            del new_replace_used_dict[key]
-    output(f"[*] 变量字典清理结束:{len(replace_used_dict.keys())} --> {len(new_replace_used_dict.keys())}")
-    return new_replace_used_dict
+    for key in replace_dict.keys():
+        if str(key) not in str(rule_list):
+            del new_dict[key]
+    output(f"[*] 变量字典清理结束:{len(replace_dict.keys())} --> {len(new_dict.keys())}")
+    return new_dict
 
 
 if __name__ == '__main__':

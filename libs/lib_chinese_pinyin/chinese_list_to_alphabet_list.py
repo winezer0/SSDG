@@ -90,14 +90,16 @@ def chinese_list_to_alphabet_list(string_list, options_dict, store_chinese=False
     return alphabet_list
 
 
-def dict_chinese_to_dict_alphabet(string_dict, options_dict, store_chinese=False):
-    string_dict = copy.copy(string_dict)
-    for key, string_list in string_dict.items():
-        if string_list:
-            string_dict[key] = chinese_list_to_alphabet_list(string_list=string_list,
-                                                             options_dict=options_dict,
-                                                             store_chinese=store_chinese)
-    return string_dict
+def dict_chinese_value_to_alphabet(replace_dict, options_dict, store_chinese=False):
+    replace_dict = copy.copy(replace_dict)
+    for key, value_list in replace_dict.items():
+        if value_list:
+            replace_dict[key] = chinese_list_to_alphabet_list(
+                string_list=value_list,
+                options_dict=options_dict,
+                store_chinese=store_chinese
+            )
+    return replace_dict
 
 
 if __name__ == '__main__':

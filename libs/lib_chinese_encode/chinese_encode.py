@@ -52,8 +52,11 @@ def chinese_str_to_encode(string, coding, url_encode, de_strip, only_chinese=Fal
     char_list = extract_chinese_char(string)
     if char_list:
         # 生成替换字典
-        chinese_char_replace_dict = gen_chinese_replace_encode_dict(char_list=char_list, coding=coding,
-                                                                    url_encode=url_encode)
+        chinese_char_replace_dict = gen_chinese_replace_encode_dict(
+            char_list=char_list,
+            coding=coding,
+            url_encode=url_encode
+        )
         # 进行字符串替换
         string = replace_string_by_replace_dict(string, chinese_char_replace_dict)
     elif not only_chinese:
@@ -103,6 +106,25 @@ def tuple_list_chinese_encode_by_char(tuple_list,
             # 不忽略没有编码的元组, 后面需要去重一次
             new_tuple_list.append((ele_1, ele_2))
     return new_tuple_list
+
+
+# 对 列表 进行中文编码和URL编码
+def string_list_chinese_encode_by_char(string_list,
+                                       coding_list=["utf8"],
+                                       url_encode=True,
+                                       de_strip=True,
+                                       only_chinese=True):
+    new_list = []
+    for ele in string_list:
+        for coding in coding_list:
+            ele = chinese_str_to_encode(string=ele,
+                                        coding=coding,
+                                        url_encode=url_encode,
+                                        de_strip=de_strip,
+                                        only_chinese=only_chinese)
+            # 不忽略没有编码的元组, 后面需要去重一次
+            new_list.append(ele)
+    return new_list
 
 
 # 判断字符串是否包含中文

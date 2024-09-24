@@ -21,14 +21,17 @@ def args_parser(config_dict):
     # 规则示例: { "param": "", "dest": "","name": "", "default": "", "nargs": "","action": "",  "choices": "", "type": "","help": ""}
     args_options = [
         # 指定扫描URL或文件
-        {"param": GB_TARGET, "help": f"需要爆破的URL目标 用于提取部分域名信息"},
+        {"param": GB_TARGET, "help": f"URL目标 用于提取部分域名信息"},
+
+        # 指定 生成 账号密码对的账号字典
+        {"param": GB_BASE_NAME_FILE, "help": f"账号字典 用于编写账号密码对字典"},
 
         # 指定字典后缀名列表
         {"param": GB_BASE_DICT_SUFFIX, "nargs": "+", "help": "需要调用的密码规则元素文件后缀"},
 
         {"param": GB_RULE_LEVEL_PASS, "type": int, "help": "指定密码规则文件的级别"},
 
-        {"param": GB_RULE_LEVEL_EXACT, "action": "store_false", "help": "是否精确选择字典文件 默认选择小于等于指定级别的规则"},
+        {"param": GB_RULE_LEVEL_EXACT, "action": "store_true", "default": False, "help": "是否精确选择字典文件 默认选择小于等于指定级别的规则"},
 
         {"param": GB_EXCLUDE_FLAG, "action": "store_true", "help": "过滤已经爆破过的账号密码对文件 开关"},
         {"param": GB_EXCLUDE_FILE, "help": "过滤已经爆破过的账号密码对文件 名称"},

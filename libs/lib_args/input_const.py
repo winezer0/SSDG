@@ -19,9 +19,7 @@ GB_TEMP_DICT_DIR = ""
 ######################################################
 # 自定义输入参数相关
 GB_TARGET = ""  # 指定获取域名因变量的域名
-######################################################
-GB_DEFAULT_NAME_LIST = ""
-GB_DEFAULT_PASS_LIST = ""
+GB_BASE_NAME_FILE = ""  # 指定获取域名因变量的域名
 ######################################################
 # 最后对中文账号密码进行进行中文编码
 GB_CHINESE_ENCODE_CODING = ""
@@ -60,12 +58,6 @@ GB_RULE_LEVEL_NAME = None
 GB_RULE_LEVEL_PASS = None
 GB_RULE_LEVEL_PAIR = None
 GB_RULE_LEVEL_EXACT = None
-# 账号密码对文件 连接符号
-GB_PAIR_LINK_SYMBOL = None
-# 使用账号:密码对文件进行爆破
-GB_USE_PAIR_FILE = None
-# 使用账号:密码对文件进行时,是否进行基本变量替换
-GB_USE_PAIR_BASE_REPL = None
 # 用户名中的中文转拼音处理
 GB_CHINESE_TO_PINYIN = None  # 开启中文转拼音的操作
 GB_STORE_CHINESE = None  # 保留原始的中文字符串
