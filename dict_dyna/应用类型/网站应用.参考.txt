@@ -1,8 +1,0 @@
-网站应用的分类描述信息：
-网站
-www
-web
-site
-cms
-cgi
-http

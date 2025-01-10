@@ -1,9 +1,0 @@
-不同的应用存在默认的密码配置：
-
-常见不同的后台类型密码示例：
-数据库: 账号: root, 密码：root root123 123456
-tomcat: 账号: admin tomcat manager 密码: admin tomcat admin123 123456 manager
-jboss: 账号: admin jboss manager 密码: admin jboss manager 123456
-weblogic: 账号: weblogic admin manager 密码: weblogic admin manager 123456
-
-安全设备默认口令: https://mp.weixin.qq.com/s/nJ-blIy0JTJ7Dz0WuqrEYQ

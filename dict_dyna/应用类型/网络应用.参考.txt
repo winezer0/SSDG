@@ -1,7 +1,0 @@
-网络应用的分类描述信息：
-网络
-net
-netcon
-network
-con
-connect

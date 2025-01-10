@@ -1,4 +1,0 @@
-man
-user
-account
-visor
